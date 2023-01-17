@@ -125,7 +125,7 @@ namespace yash {
 		}
 
 		// change current working directory
-		std::string ccwd(const std::string& path) {
+		std::string ccwd(const std::string& path=yash::HOMEDIR) {
 			std::filesystem::current_path(path.c_str());
 			return path;
 		}

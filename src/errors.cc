@@ -12,6 +12,7 @@
 #include <cstdio>
 #include <string>
 #include "errors.hh"
+#include "yash.hh"
 
 namespace yash {
 	// print error
@@ -30,5 +31,13 @@ namespace yash {
 	extern const int ERR_INVALID_DATA			= 103;
 	extern const int ERR_INSUFFICIENT_DATA		= 104;
 	extern const int ERR_INVALID_TOKEN			= 105;
+	extern const int ERR_UNKNOWN				= 106;
+
+	// push error data
+	int push_err(const int& __return) {
+		yash::glob_token = yash::TOK_ERROR;
+		yash::glob_return = __return;
+		return __return;
+	}
 }
 

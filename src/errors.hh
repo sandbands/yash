@@ -24,6 +24,10 @@ namespace yash {
 	extern const int ERR_INVALID_DATA;
 	extern const int ERR_INSUFFICIENT_DATA;
 	extern const int ERR_INVALID_TOKEN;
+	extern const int ERR_UNKNOWN;
+
+	// push error data
+	int push_err(const int& __return=yash::ERR_UNKNOWN);
 }
 
 #endif /* ERRORS_HH */
