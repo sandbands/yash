@@ -1,6 +1,6 @@
 /**
  * @file errors.hh
- * @author your name (you@domain.com)
+ * @author Rammy Aly (ramaly544@gmail.com)
  * @brief Output Errors
  * @version 0.1
  * @date 2023-01-15

@@ -1,6 +1,6 @@
 /**
  * @file yash.cc
- * @author your name (you@domain.com)
+ * @author Rammy Aly (ramaly544@gmail.com)
  * @brief Main source file
  * @version 0.1
  * @date 2023-01-15
@@ -52,7 +52,7 @@ std::vector<std::string> functions = {
 
 bool check_int(const int& check, const int& required, const bool& message=true, const bool& args=true);
 
-void fn_call(const std::string& function, const std::vector<std::string>& argv, const int& start=2) {
+yash::token fn_call(const std::string& function, const std::vector<std::string>& argv, const int& start=2) {
 	const int argc = argv.size();
 
 	if (function == "exit") {
@@ -82,6 +82,8 @@ void fn_call(const std::string& function, const std::vector<std::string>& argv, 
 		yash::glob_token = yash::TOK_ERROR;
 		yash::glob_return = yash::ERR_INVALID_TOKEN;
 	}
+
+	return yash::glob_token;
 }
 
 bool check_int(const int& check, const int& required, const bool& message, const bool& args) {
@@ -135,7 +137,7 @@ yash::token exec(const std::vector<std::string>& argv) {
 
 				if (valid_function) {
 					const std::string function = argv[1];
-					fn_call(function, argv);
+					token = fn_call(function, argv);
 				} else {
 					yash::error("invalid function");
 					token = yash::TOK_ERROR;

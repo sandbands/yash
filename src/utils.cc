@@ -1,6 +1,6 @@
 /**
  * @file utils.cc
- * @author your name (you@domain.com)
+ * @author Rammy Aly (ramaly544@gmail.com)
  * @brief Utilities
  * @version 0.1
  * @date 2023-01-15

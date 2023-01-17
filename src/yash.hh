@@ -1,6 +1,6 @@
 /**
  * @file yash.hh
- * @author your name (you@domain.com)
+ * @author Rammy Aly (ramaly544@gmail.com)
  * @brief Definitions for main source file
  * @version 0.1
  * @date 2023-01-15
