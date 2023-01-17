@@ -39,9 +39,6 @@ namespace yash {
 
 		// get current working directory
 		std::string gcwd();
-
-		// change current working directory (windows only)
-		std::string ccwd_win(const std::string& path=yash::HOMEDIR);
 	}
 }
 

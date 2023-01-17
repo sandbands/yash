@@ -13,7 +13,6 @@
 #include <cstdio>
 #include <iostream>
 #include <vector>
-#include <direct.h>
 #include <errno.h>
 #include <string>
 #include "yash.hh"
@@ -134,32 +133,6 @@ namespace yash {
 		// get current working directory
 		std::string gcwd() {
 			return std::filesystem::current_path().string();
-		}
-
-		// change current working directory (windows only)
-		std::string ccwd_win(const std::string& path) {
-			// windows only
-			if(_chdir(path.c_str())) {
-				switch (errno) {
-					case ENOENT:
-						yash::error("'" + path + "' is not a valid directory");
-						yash::glob_return = yash::ERR_INVALID_DATA;
-						yash::glob_token = yash::TOK_ERROR;
-						break;
-					case EINVAL:
-						yash::error("Invalid buffer");
-						yash::glob_return = yash::ERR_INVALID_DATA;
-						yash::glob_token = yash::TOK_ERROR;
-						break;
-					default:
-						yash::error("Unknown error.\n");
-						yash::glob_return = yash::ERR_INVALID_DATA;
-						yash::glob_token = yash::TOK_ERROR;
-						break;
-				}
-			}
-
-			return path;
 		}
 	}
 }
