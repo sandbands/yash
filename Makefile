@@ -10,7 +10,9 @@ WINCOMP		:= x86_64-w64-mingw32-g++
 CXX = g++
 
 # define any compile-time flags
-CXXFLAGS	:= -std=c++17 -Wall -Wextra -g
+CXXFLAGS	:= -std=c++23 -g
+
+#  -Wall -Wextra
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
@@ -92,6 +94,13 @@ run: all
 	./$(OUTPUTMAIN)
 	@echo Executing 'run: all' complete!
 
-windows:
-	$(WINCOMP) $(CXXFLAGS) $(INCLUDES) -o $(OUTPUTMAIN) $(SOURCES) $(LFLAGS) $(LIBS)
+install:
+	make
+	export PATH="$HOME/yash/bin:$PATH"
+
+update:
+	git pull && make
+
+upgrade:
+	git pull && make
 

@@ -13,21 +13,35 @@
 #define ERRORS_HH
 
 #include <string>
+#include <vector>
 
 namespace yash {
 	// print error
 	void error(const std::string& message);
 
+	class Error {
+		public:
+		const std::string name, message, type;
+		const int code;
+
+		Error(const std::string& name, const std::string& message, const int& code, const std::string& type="Standard Error");
+	};
+
+	// print error by reference
+	void error(const Error* error);
+
 	// error codes
-	extern const int ERR_INSUFFICIENT_ARGUMENTS;
-	extern const int ERR_INVALID_ARGUMENTS;
-	extern const int ERR_INVALID_DATA;
-	extern const int ERR_INSUFFICIENT_DATA;
-	extern const int ERR_INVALID_TOKEN;
-	extern const int ERR_UNKNOWN;
+	extern const Error ERR_INSUFFICIENT_ARGUMENTS;
+	extern const Error ERR_INVALID_ARGUMENTS;
+	extern const Error ERR_INVALID_DATA;
+	extern const Error ERR_INSUFFICIENT_DATA;
+	extern const Error ERR_INVALID_TOKEN;
+	extern const Error ERR_UNKNOWN;
+
+	extern std::vector<Error*> errors;
 
 	// push error data
-	int push_err(const int& __return=yash::ERR_UNKNOWN);
+	const Error* push_err(const Error* error);
 }
 
 #endif /* ERRORS_HH */

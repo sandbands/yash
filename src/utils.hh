@@ -15,31 +15,61 @@
 #include <cstdio>
 #include <string>
 #include "yash.hh"
+#include "yunistd.hh"
 
 namespace yash {
-	namespace utils {
-		// clear output with escape characters
-		void clear_esc();
+	// clear output with escape characters
+	void clear_esc();
 
-		// clear output
-		void clear(const std::string& platform=PLATFORM);
+	// clear output
+	void clear(const std::string& platform=PLATFORM);
 
-		// end line
-		void endl();
+	// end line
+	void endl();
 
-		// parse vector
-		template <typename T>
-		std::string parse(std::vector<T> vector, std::string wrap = "()", std::string sep = ", ");
+	// parse vector
+	template <typename T>
+	std::string parse(std::vector<T> vector, std::string wrap = "()", std::string sep = ", ");
 
-		// split string
-		std::vector<std::string> split_string(const std::string& string, const std::string& delim=" \t");
+	// split string
+	std::vector<std::string> split_string(const std::string& string, const std::string& delim=" \t");
 
-		// change current working directory
-		std::string ccwd(const std::string& path=yash::HOMEDIR);
+	// change current working directory
+	std::string ccwd(const std::string& path=yash::HOMEDIR);
 
-		// get current working directory
-		std::string gcwd();
-	}
+	// get current working directory
+	std::string gcwd();
+
+	// check if an int is greater than or equal to the required number
+	bool check_int(const int& check, const int& required, const bool& message=true, const bool& args=true);
+
+	// check if a string can be converted into an integer
+	bool valid_int(const std::string& __string, const bool& __unsigned=true);
+
+	// simple check for ~ (HOME) symbol
+	std::string pathify(std::string& path);
+
+	// update the prompt string
+	void update_prompt();
+
+	// change directory
+	int cd(std::string path = yash::HOMEDIR);
+
+	// reverse a vector
+	template <typename T>
+	std::vector<T> reverse_vector(std::vector<T>& __vector);
+
+	// trim the last whitespace of a string
+	void trim_end(std::string* __string);
+
+	// sleep
+	void __sleep(unsigned int seconds);
+
+	// suspend
+	void suspend(unsigned int seconds);
+
+	// pause
+	void pause(unsigned int seconds);
 }
 
 
