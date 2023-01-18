@@ -90,6 +90,13 @@ clean:
 	$(RM) $(call FIXPATH,$(OBJECTS))
 	@echo Cleanup complete!
 
+cleanup:
+	$(RM) $(call FIXPATH, $(SOURCES))
+	@echo Successfully removed source files
+
+recover:
+	git pull
+
 run: all
 	./$(OUTPUTMAIN)
 	@echo Executing 'run: all' complete!
@@ -103,4 +110,6 @@ update:
 
 upgrade:
 	git pull && make
+
+
 
