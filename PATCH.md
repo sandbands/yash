@@ -1,7 +1,7 @@
 
 # yash patch notes
 
-# Version 1.07.2
+# Version 1.08.2
 
 - Fixed traceback command
 - New option for `trace` command:

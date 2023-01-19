@@ -191,7 +191,7 @@ yash::token exec(const std::vector<std::string>& argv) {
 		else if (prog == "trace" || prog == "traceback") {
 			if (yash::check_int(argc, 2, false)) {
 				if (argv[1] == "--count" || argv[1] == "--available" || argv[1] == "-ls") {
-					yash::output("available errors to trace", yash::errors.size());
+					yash::output("available errors to trace", std::to_string(yash::errors.size()));
 				} else {
 					const std::string __index__ = argv[1];
 					if (!yash::valid_int(__index__)) {
