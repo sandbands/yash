@@ -1,7 +1,7 @@
 
 # yash patch notes
 
-# Version 1.00.4
+# Version 1.07.2
 
 - Added ability to trace back errors
 - All functions have been converted to commands
@@ -14,5 +14,9 @@
 - Closer to Cross Platform availability
 - Added documentation
 
-First official release!
+
+
+First official release (for real this time)!
+
+NOTE: Function 'throw' is currently having issues and is under further development.
 

@@ -16,6 +16,7 @@
 #include <string>
 #include "yash.hh"
 #include "yunistd.hh"
+#include "errors.hh"
 
 namespace yash {
 	// clear output with escape characters
@@ -29,7 +30,60 @@ namespace yash {
 
 	// parse vector
 	template <typename T>
-	std::string parse(std::vector<T> vector, std::string wrap = "()", std::string sep = ", ");
+	std::string parse(const std::vector<T>& vector, const std::string& wrap, const std::string& sep) {
+		std::string wrap_open, wrap_close;
+
+		// must have exactly two characters. Anything other will default to no wrap
+		if (wrap.size() == 2) {
+			std::string wrap_open	= wrap[0];
+			std::string wrap_close	= wrap[1];
+		}
+
+		// no wrap
+		else {
+			std::string wrap_open	= "";
+			std::string wrap_close	= "";
+		}
+
+		std::string result = wrap_open;
+
+		if (vector.size() > 0) {
+			for (int i = 0; i < vector.size(); i++) {
+				// first and last
+				if (i == 0 && vector.size() == 1) {
+					// add item
+					result += vector[i];
+					// clsoe wrap
+					result += wrap_close;
+					return result;
+				}
+
+				// first but not last
+				else if (i == 0 && vector.size() > 1) {
+					result += vector[i];
+					result += sep;
+				}
+
+				// last item
+				else if (i == vector.size() - 1) {
+					result += vector[i];
+					result += wrap_close;
+					return result;
+				}
+
+				// any other item
+				else {
+					result += vector[i];
+					result += sep;
+				}
+			}
+		}
+
+		// close wrap
+		result += wrap_close;
+
+		return result;
+	}
 
 	// split string
 	std::vector<std::string> split_string(const std::string& string, const std::string& delim=" \t");
@@ -44,10 +98,10 @@ namespace yash {
 	bool check_int(const int& check, const int& required, const bool& message=true, const bool& args=true);
 
 	// check if a string can be converted into an integer
-	bool valid_int(const std::string& __string, const bool& __unsigned=true);
+	bool valid_int(const std::string& string, const bool& _unsigned=true);
 
 	// simple check for ~ (HOME) symbol
-	std::string pathify(std::string& path);
+	std::string pathify(const std::string& path, const bool& full=true);
 
 	// update the prompt string
 	void update_prompt();
@@ -57,13 +111,30 @@ namespace yash {
 
 	// reverse a vector
 	template <typename T>
-	std::vector<T> reverse_vector(std::vector<T>& __vector);
+	std::vector<T> reverse_vector(const std::vector<T>& vector) {
+		std::vector<T> _new = {};
+
+		// 2 elements or more
+		if (vector.size() > 0 && vector.size() != 1) {
+			// iterate backwards
+			for (int i=vector.size() - 1; i >= 0; i--)
+				_new.push_back(vector[i]);		
+		}
+
+		// 1 element
+		else if (vector.size() == 1)
+			_new.push_back(vector[0]);
+
+		// 0 elements will return the empty _new vector
+
+		return _new;
+	}
 
 	// trim the last whitespace of a string
-	void trim_end(std::string* __string);
+	void trim_end(std::string* string);
 
 	// sleep
-	void __sleep(unsigned int seconds);
+	void _sleep(unsigned int seconds);
 
 	// suspend
 	void suspend(unsigned int seconds);

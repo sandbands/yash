@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <iostream>
 #include <vector>
+#include <regex>
 #include <errno.h>
 #include <string>
 #include "yash.hh"
@@ -35,63 +36,6 @@ namespace yash {
 
 	// end line
 	void endl() { std::cout << std::endl; }
-
-	// parse vector
-	template <typename T>
-	std::string parse(const std::vector<T>& vector, const std::string& wrap, const std::string& sep) {
-		std::string wrap_open, wrap_close;
-
-		// must have exactly two characters. Anything other will default to no wrap
-		if (wrap.size() == 2) {
-			std::string wrap_open	= wrap[0];
-			std::string wrap_close	= wrap[1];
-		}
-
-		// no wrap
-		else {
-			std::string wrap_open	= "";
-			std::string wrap_close	= "";
-		}
-
-		std::string result = wrap_open;
-
-		if (vector.size() > 0) {
-			for (int i = 0; i < vector.size(); i++) {
-				// first and last
-				if (i == 0 && vector.size() == 1) {
-					// add item
-					result += vector[i];
-					// clsoe wrap
-					result += wrap_close;
-					return result;
-				}
-
-				// first but not last
-				else if (i == 0 && vector.size() > 1) {
-					result += vector[i];
-					result += sep;
-				}
-
-				// last item
-				else if (i == vector.size() - 1) {
-					result += vector[i];
-					result += wrap_close;
-					return result;
-				}
-
-				// any other item
-				else {
-					result += vector[i];
-					result += sep;
-				}
-			}
-		}
-
-		// close wrap
-		result += wrap_close;
-
-		return result;
-	}
 
 	// split string
 	std::vector<std::string> split_string(const std::string& string, const std::string& delim) {
@@ -154,28 +98,28 @@ namespace yash {
 	}
 
 	// check if a string can be converted into an integer
-	bool valid_int(const std::string& __string, const bool& __unsigned) {
+	bool valid_int(const std::string& string, const bool& _unsigned) {
 		std::string illegal = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`-=[]\\';/.,~!@#$%^&*()_+{}|:\"<>?";
-		if (!(__string.size() > 0))
+		if (!(string.size() > 0))
 			return false;
 
-		if (__unsigned) {
-			for (int i=0; i<__string.size(); i++) {
+		if (_unsigned) {
+			for (int i=0; i<string.size(); i++) {
 				for (int j=0; j<illegal.size(); j++) {
-					if (__string[i] == illegal[j])
+					if (string[i] == illegal[j])
 						return false;
 				}
 			}
 		}
 		
 		else {
-			if (__string.size() == 1 && __string[0] == '-')
+			if (string.size() == 1 && string[0] == '-')
 				return false;
 
-			for (int i=0; i<__string.size(); i++) {
+			for (int i=0; i<string.size(); i++) {
 				for (int j=0; j<illegal.size(); j++) {
-					if (__string[i] == illegal[j]) {
-						if (!(i == 0 && __string[i] == '-'))
+					if (string[i] == illegal[j]) {
+						if (!(i == 0 && string[i] == '-'))
 							return false;
 					}
 				}
@@ -186,90 +130,81 @@ namespace yash {
 	}
 
 	// simple check for ~ (HOME) symbol
-	std::string pathify(std::string& path) {
-		if (path == "~")
-			path = yash::HOMEDIR;
-		else if (path[0] == '~') {
-			std::string path_new = yash::HOMEDIR;
-			for (int i=0; i<path.size(); i++)
-				path_new += path[i];
-			path = path_new;
+	std::string pathify(const std::string& path, const bool& full=true) {
+		// TODO: fix bug which only keeps home dir
+		std::string path_new = path;
+
+		if (full) {
+			if (path == "~") {
+				path_new = yash::HOMEDIR;
+			}
+
+			else if (path[0] == '~') {
+				std::string path_new = yash::HOMEDIR;
+				for (int i=1; i<path.size(); i++)
+					path_new += path[i];
+			}
+		} else {
+			if (path == yash::HOMEDIR) {
+				path_new = "~";
+			} else if (path.starts_with(yash::HOMEDIR)) {
+				std::regex rx(path);
+				path_new = std::regex_replace(yash::HOMEDIR, rx, "~");
+			}
 		}
 
-		return path;
+		return path_new;
 	}
 
 	// update the prompt string
 	void update_prompt() {
-		yash::PROMPT = std::string("[" + yash::USERNAME + "@yash  " + yash::CWD + "]$ ");
+		yash::CWD = yash::gcwd();
+		yash::PROMPT = std::string("[" + yash::USERNAME + "  " + yash::CWD + "]$ ");
 	}
 
 	// change directory
-	int cd(std::string path) {
+	int cd(std::string path = yash::HOMEDIR) {
 		int result = 1;
 
-		if (path == "~")
-			path = yash::HOMEDIR;
+		path = yash::pathify(path);
 
 		try {
-			yash::ccwd(pathify(path));
-		} catch (std::filesystem::__cxx11::filesystem_error& e) {
+			yash::ccwd(path);
+		} catch (std::filesystem::__cxx11::filesystem_error) {
 			result = 0;
 		}
 
 		if (result) {
 			yash::CWD = yash::gcwd();
-			update_prompt();
+			yash::update_prompt();
 		}
 
 		return result;
 	}
 
-	// reverse a vector
-	template <typename T>
-	std::vector<T> reverse_vector(std::vector<T>& __vector) {
-		std::vector<T> __new = {};
-
-		// 2 elements or more
-		if (__vector.size() > 0 && __vector.size() != 1) {
-			// iterate backwards
-			for (int i=__vector.size() - 1; i >= 0; i--)
-				__new.push_back(__vector[i]);		
-		}
-
-		// 1 element
-		else if (__vector.size() == 1) {
-			__new.push_back(__vector[0]);
-		}
-
-		// 0 elements will return the empty __new vector
-
-		return __new;
-	}
-
 	// trim the last whitespace of a string
-	void trim_end(std::string* __string) {
+	void trim_end(std::string* string) {
 		std::string result;
-		int final_index = __string->size() - 1;
+		int final_index = string->size() - 1;
 
-		if (__string->size() > 0) {
+		if (string->size() > 0) {
 			// check for whitespace to trim
-			if ((*__string)[final_index] == ' ') {
+			if ((*string)[final_index] == ' ') {
 				for (int i=0; i < final_index; i++)
-					result += (*__string)[i];
+					result += (*string)[i];
 			}
 		} else {
 			result = "";
 		}
 
-		*__string = result;
+		*string = result;
 
 		// keep repeating until all whitespaces at the end are removed
-		trim_end(__string);
+		trim_end(string);
 	}
 
 	// sleep
-	void __sleep(unsigned int seconds) {
+	void _sleep(unsigned int seconds) {
 		sleep(seconds);
 	}
 

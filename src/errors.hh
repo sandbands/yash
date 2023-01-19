@@ -17,7 +17,10 @@
 
 namespace yash {
 	// print error
-	void error(const std::string& message);
+	void error(const std::string& message, const bool& add_period=true);
+
+	// print error
+	void error(const std::string& message, const std::string& item, const bool& add_period=true);
 
 	class Error {
 		public:
@@ -28,7 +31,7 @@ namespace yash {
 	};
 
 	// print error by reference
-	void error(const Error* error);
+	void error(const Error* error, const std::string& item="None", const bool& add_period=true);
 
 	// error codes
 	extern const Error ERR_INSUFFICIENT_ARGUMENTS;
@@ -39,6 +42,8 @@ namespace yash {
 	extern const Error ERR_UNKNOWN;
 
 	extern std::vector<Error*> errors;
+
+	int traceback(int index=1);
 
 	// push error data
 	const Error* push_err(const Error* error);

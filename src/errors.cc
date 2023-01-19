@@ -13,15 +13,27 @@
 #include <string>
 #include "errors.hh"
 #include "yash.hh"
+#include "output.hh"
+#include "utils.hh"
 
 namespace yash {
 	// print error
-	void error(const std::string& message) {
+	void error(const std::string& message, const bool& add_period) {
 		if (message.size() > 0) {
-			if (message[message.size() - 1] != '.')
-				printf("\n[yash] error: %s.\n\n", message.c_str());
+			if (message[message.size() - 1] != '.' && add_period)
+				printf("\nyash: error: %s.\n\n", message.c_str());
 			else
-				printf("\n[yash] error: %s\n\n", message.c_str());
+				printf("\nyash: error: %s\n\n", message.c_str());
+		}
+	}
+
+	// print error
+	void error(const std::string& message, const std::string& item, const bool& add_period) {
+		if (message.size() > 0) {
+			if (message[message.size() - 1] != '.' && add_period)
+				printf("\nyash: error: %s: '%s'.\n\n", message.c_str(), item.c_str());
+			else
+				printf("\nyash: error: %s: '%s'\n\n", message.c_str(), item.c_str());
 		}
 	}
 
@@ -30,12 +42,12 @@ namespace yash {
 	 : name(name), message(message), code(code), type(type) {}
 
 	// print error by reference
-	void error(const Error* error) {
+	void error(const Error* error, const std::string& item, const bool& add_period) {
 		if (error->message.size() > 0) {
-			if (error->message[error->message.size() - 1] != '.')
-				printf("\n[yash] (type:%s, code:%i) %s: %s.\n\n", error->type.c_str(), error->code, error->name.c_str(), error->message.c_str());
+			if (error->message[error->message.size() - 1] != '.' && add_period)
+				printf("\nyash (type:%s,  code:%i,  item:'%s') %s: %s.\n\n", error->type.c_str(), error->code, item.c_str(), error->name.c_str(), error->message.c_str());
 			else
-				printf("\n[yash] (type:%s, code:%i) %s: %s\n\n", error->type.c_str(), error->code, error->name.c_str(), error->message.c_str());
+				printf("\nyash (type:%s, code:%i,  item:'%s') %s: %s\n\n", error->type.c_str(), error->code, item.c_str(), error->name.c_str(), error->message.c_str());
 		}
 	}
 
@@ -49,6 +61,26 @@ namespace yash {
 
 	// list of encountered errors
 	extern std::vector<Error*> errors = {};
+
+	int traceback(int index) {
+		int result = 1;
+
+		if (yash::errors.size() > 0) {
+			if (index > 0 && index <= yash::errors.size()) {
+				std::vector<yash::Error*> __errors__ = yash::reverse_vector(yash::errors);
+				yash::error(__errors__[index - 1]);
+			} else {
+				yash::error("no error found at index", std::to_string(index));
+				yash::push_err(&yash::ERR_INVALID_DATA);
+				result = 0;
+			}
+		} else {
+			yash::output("no errors found");
+			result = 0;
+		}
+
+		return result;
+	}
 
 	// push error data
 	const Error* push_err(const Error* error) {

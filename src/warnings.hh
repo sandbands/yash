@@ -16,7 +16,10 @@
 
 namespace yash {
 	// print warning
-	void warn(const std::string& message);
+	void warn(const std::string& message, const bool& add_period=true);
+
+	// print warning
+	void warn(const std::string& message, const std::string& item, const bool& add_period=true);
 }
 
 #endif /* WARNINGS_HH */

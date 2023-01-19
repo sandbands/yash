@@ -1,7 +1,7 @@
 
 # yash documentation
 ## command: `exit`
-## aliases: `quit`
+## aliases: `quit`, `q`
 
 Exit yash.
 

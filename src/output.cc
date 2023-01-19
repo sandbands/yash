@@ -15,12 +15,22 @@
 
 namespace yash {
 	// print
-	void output(const std::string& message) {
+	void output(const std::string& message, const bool& add_period) {
 		if (message.size() > 0) {
-			if (message[message.size() - 1] != '.')
-				printf("\n[yash]: %s.\n\n", message.c_str());
+			if (message[message.size() - 1] != '.' && add_period)
+				printf("\nyash: %s.\n\n", message.c_str());
 			else
-				printf("\n[yash]: %s\n\n", message.c_str());
+				printf("\nyash: %s\n\n", message.c_str());
+		}
+	}
+
+	// print
+	void output(const std::string& message, const std::string& item, const bool& add_period) {
+		if (message.size() > 0) {
+			if (message[message.size() - 1] != '.' && add_period)
+				printf("\nyash: %s: '%s'.\n\n", message.c_str(), item.c_str());
+			else
+				printf("\nyash: %s: '%s'\n\n", message.c_str(), item.c_str());
 		}
 	}
 }

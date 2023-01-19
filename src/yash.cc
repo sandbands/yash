@@ -45,20 +45,20 @@ namespace yash {
 
 const std::string help_all() {
 	const std::string help_str = "\n\n \
- \
- \
-Available Commands: \
- \
- cd, chdir, cwd [path=HOME]\t: Changes the current working directory to the provided path \
- exit, quit\t: Exit yash \
- return [int=?]\t: Exit yash and return an exit code. Default value is the saved return status of the current session \
- version, info\t: Displays the build version and info \
- clear, cls\t: Clears the screen \
- stdout, print [*message=none]\t: Output to the console \
- sleep [seconds=1]\t: Sleep for a certain amount of seconds \
- throw <name> <code> [*message=\"None\"]\t: Throw an error and assign it information \
- trace, traceback [index=1]\t: Trace an error's information \
- sh, sys, system [*input=none]\t: Execute a system shell command \
+ \n\
+ \n\
+Available Commands: \n\
+ \n\
+ cd, chdir, cwd [path=HOME]\t: Changes the current working directory to the provided path \n\
+ exit, quit, q\t: Exit yash \n\
+ return [int=?]\t: Exit yash and return an exit code. Default value is the saved return status of the current session \n\
+ version, info\t: Displays the build version and info \n\
+ clear, cls\t: Clears the screen \n\
+ stdout, print [*message=none]\t: Output to the console \n\
+ sleep [seconds=1]\t: Sleep for a certain amount of seconds \n\
+ throw <name> <code> [*message=\"None\"]\t: Throw an error and assign it information \n\
+ trace, traceback [index=1]\t: Trace an error's information \n\
+ sh, sys, system [*input=none]\t: Execute a system shell command \n\
 \n\n";
 	return help_str;
 }
@@ -101,7 +101,7 @@ yash::token exec(const std::vector<std::string>& argv) {
 		const std::string prog = argv[0];
 
 		// exit
-		if (prog == "exit" || prog == "quit")
+		if (prog == "exit" || prog == "quit" || prog == "q")
 			token = yash::TOK_EXIT;
 			
 		// restart
@@ -144,17 +144,21 @@ yash::token exec(const std::vector<std::string>& argv) {
 		else if (prog == "cd" || prog == "chdir" || prog == "cwd") {
 			if (yash::check_int(argc, 2, false)) {
 				const std::string path = argv[1];
-				if (yash::cd(path)) {
-
-				} else {
-					yash::error("invalid path");
+				if (!yash::cd(path)) {
+					yash::error("invalid path", path);
+					yash::push_err(&yash::ERR_INVALID_ARGUMENTS);
 				}
 			} else {
-				if (!yash::cd()) {
+				const std::string path = yash::HOMEDIR;
+				if (!yash::cd(path)) {
 					yash::error("failed to navigate to home directory");
 					yash::push_err(&yash::ERR_UNKNOWN);
 				}
 			}
+		}
+
+		else if (prog == "gwd") {
+			yash::output(yash::gcwd(), false);
 		}
 
 		// print to console
@@ -162,10 +166,6 @@ yash::token exec(const std::vector<std::string>& argv) {
 			if (yash::check_int(argc, 2, false)) {
 				for (int i=1; i<argc; i++)
 					std::cout << argv[i] << ' ';
-				
-				std::cout << std::endl;
-			} else {
-				std::cout << std::endl;
 			}
 
 			std::cout << std::endl;
@@ -178,7 +178,7 @@ yash::token exec(const std::vector<std::string>& argv) {
 
 		// get help
 		else if (prog == "help") {
-			help_all();
+			std::cout << help_all() << std::endl;
 		}
 
 		// version and info
@@ -190,54 +190,47 @@ yash::token exec(const std::vector<std::string>& argv) {
 		// trace errors
 		else if (prog == "trace" || prog == "traceback") {
 			if (yash::check_int(argc, 2, false)) {
-				const std::string __index = argv[1];
-				if (!yash::valid_int(__index)) {
-					yash::error("invalid integer");
+				const std::string __index__ = argv[1];
+				if (!yash::valid_int(__index__)) {
+					yash::error("invalid integer", __index__);
 					yash::push_err(&yash::ERR_INVALID_DATA);
 				} else {
-					const int index = std::stoi(__index);
-					if (yash::errors.size() > 0) {
-						if (index > 0 && index <= yash::errors.size()) {
-							std::vector<yash::Error*> __errors = yash::reverse_vector(yash::errors);
-							yash::error(__errors[index - 1]);
-						} else {
-							yash::error("invalid index");
-							yash::push_err(&yash::ERR_INVALID_DATA);
-						}
-					} else {
-						yash::output("no errors found.");
-					}
+					const int index = std::stoi(__index__);
+					if (!yash::traceback(index))
+						yash::output("no errors have been traced");
 				}
 			} else {
-				yash::error("insufficient arguments");
-				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+				if (!yash::traceback(1)) {
+					yash::output("no errors have been traced");
+				}
 			}
 		}
 
 		// throw custom error
 		else if (prog == "throw") {
 			if (yash::check_int(argc, 3, false)) {
-				std::string name, __code, message;
+				std::string name, __code__, message;
 				int code;
 
 				if (argc > 3) {
-					name 	= argv[1];
-					__code 	= argv[2];
-					for (int i=3; i<argc; i++) {
+					name 		= argv[1];
+					__code__ 	= argv[2];
+					for (int i=3; i<argc; i++)
 						message += argv[i] + " ";
-					}
+
 				} else {
-					name 	= argv[1];
-					__code 	= argv[2];
-					message = "None";
+					name 		= argv[1];
+					__code__ 	= argv[2];
+					message		= "None";
 				}
 
-				if (!yash::valid_int(__code)) {
-					yash::error("invalid integer");
+				if (!yash::valid_int(__code__)) {
+					yash::error("invalid integer", __code__);
 					yash::push_err(&yash::ERR_INVALID_DATA);
 				} else {
-					code = std::stoi(__code);
+					code = std::stoi(__code__);
 					yash::Error user_error = yash::Error(name, message, code, "User Defined Error");
+					yash::push_err(&user_error);
 				}
 
 			} else {
@@ -249,16 +242,16 @@ yash::token exec(const std::vector<std::string>& argv) {
 		// sleep
 		else if (prog == "sleep") {
 			if (yash::check_int(argc, 2, false)) {
-				const std::string __duration = argv[1];
+				const std::string __duration__ = argv[1];
 
-				if (!yash::valid_int(__duration)) {
+				if (!yash::valid_int(__duration__)) {
 					yash::error("invalid integer");
 					yash::push_err(&yash::ERR_INVALID_DATA);
 				} else {
-					yash::__sleep(std::stoi(__duration));
+					yash::_sleep(std::stoi(__duration__));
 				}
 			} else {
-				yash::__sleep(1);
+				yash::_sleep(1);
 			}
 		}
 
@@ -269,8 +262,6 @@ yash::token exec(const std::vector<std::string>& argv) {
 				
 				for (int i=1; i<argc; i++)
 					cmd += argv[i] + " ";
-
-				yash::trim_end(&cmd);
 				
 				std::system(cmd.c_str());
 			} else {
@@ -279,7 +270,7 @@ yash::token exec(const std::vector<std::string>& argv) {
 		}
 
 		else {
-			yash::error("invalid command");
+			yash::error("invalid command", prog);
 			yash::push_err(&yash::ERR_INVALID_TOKEN);
 		}
 	}
@@ -344,7 +335,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		// set working directory and launch
-		else if (prog == "-d" || prog == "--directory" || "--wdir") {
+		else if (prog == "-d" || prog == "--directory" || "--wdir" || prog == "-ld") {
 			if (argc > 2) {
 				const std::string path = std::string(argv[1]);
 				if (yash::cd(path)) {
