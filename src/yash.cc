@@ -57,7 +57,7 @@ Available Commands: \n\
  stdout, print [*message=none]\t: Output to the console \n\
  sleep [seconds=1]\t: Sleep for a certain amount of seconds \n\
  throw <name> <code> [*message=\"None\"]\t: Throw an error and assign it information \n\
- trace, traceback [index=1]\t: Trace an error's information \n\
+ trace, traceback (--count, --amount, -ls) | ([index=1])\t: Trace an error's information \n\
  sh, sys, system [*input=none]\t: Execute a system shell command \n\
 \n\n";
 	return help_str;
@@ -190,15 +190,20 @@ yash::token exec(const std::vector<std::string>& argv) {
 		// trace errors
 		else if (prog == "trace" || prog == "traceback") {
 			if (yash::check_int(argc, 2, false)) {
-				const std::string __index__ = argv[1];
-				if (!yash::valid_int(__index__)) {
-					yash::error("invalid integer", __index__);
-					yash::push_err(&yash::ERR_INVALID_DATA);
+				if (argv[1] == "--count" || argv[1] == "--available" || argv[1] == "-ls") {
+					yash::output("available errors to trace", yash::errors.size());
 				} else {
-					const int index = std::stoi(__index__);
-					if (!yash::traceback(index))
-						yash::output("no errors have been traced");
+					const std::string __index__ = argv[1];
+					if (!yash::valid_int(__index__)) {
+						yash::error("invalid integer", __index__);
+						yash::push_err(&yash::ERR_INVALID_DATA);
+					} else {
+						const int index = std::stoi(__index__);
+						if (!yash::traceback(index))
+							yash::output("no errors have been traced");
+					}
 				}
+
 			} else {
 				if (!yash::traceback(1)) {
 					yash::output("no errors have been traced");
@@ -229,8 +234,7 @@ yash::token exec(const std::vector<std::string>& argv) {
 					yash::push_err(&yash::ERR_INVALID_DATA);
 				} else {
 					code = std::stoi(__code__);
-					yash::Error user_error = yash::Error(name, message, code, "User Defined Error");
-					yash::push_err(&user_error);
+					yash::push_err(new yash::Error(name, message, code, "User Defined Error"));
 				}
 
 			} else {
@@ -372,6 +376,8 @@ int main(int argc, char* argv[]) {
 			continue;
 		}
 	}
+
+	yash::cleanup(yash::errors);
 
 	return yash::glob_return;
 }

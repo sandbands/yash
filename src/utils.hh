@@ -141,6 +141,15 @@ namespace yash {
 
 	// pause
 	void pause(unsigned int seconds);
+
+	template <typename T>
+	void cleanup(std::vector<T>& __memory__) {
+		if (__memory__.size() == 0)
+			return;
+
+		for (int i=0; i<__memory__.size(); i++)
+			delete __memory__[i];
+	}
 }
 
 

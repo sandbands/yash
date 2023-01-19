@@ -39,7 +39,7 @@ namespace yash {
 
 
 	Error::Error(const std::string& name, const std::string& message, const int& code, const std::string& type)
-	 : name(name), message(message), code(code), type(type) {}
+		: name(name), message(message), code(code), type(type) {}
 
 	// print error by reference
 	void error(const Error* error, const std::string& item, const bool& add_period) {
