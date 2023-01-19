@@ -13,7 +13,7 @@ Navigate to the yash directory in your console
 
 type 'make install'
 
-## READ:
+## READ
 
 - ./bin/SETUP.md
 - ./config/CONFIG.md
