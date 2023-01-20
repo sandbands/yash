@@ -13,9 +13,22 @@ Navigate to the yash directory in your console
 
 type 'make install'
 
-## READ
+## For you to read
 
-- ./bin/SETUP.md
-- ./config/CONFIG.md
-- (Optional) The contents in ./doc
+- `PATCH.md`
+- `./bin/SETUP.md`
+- `./config/CONFIG.md`
+- (Optional) `./doc/*.md`
+
+
+# Ideas for the future
+
+- `rmdir`: Remove a directory and its contents or multiple directories and their contents
+- `rm`: Remove a file or multiple files
+- `mkdir`: Create a new directory or multiple directories
+- `mk`: Create a file or multiple files
+- `cat`: Concatenate a string to a target
+- `echo`: Use standard output
+- run command files/config files (similar to .bashrc, .zshrc)
+- scripting language
 

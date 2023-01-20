@@ -38,25 +38,26 @@ namespace yash {
 	void endl() { std::cout << std::endl; }
 
 	// split string
-	std::vector<std::string> split_string(const std::string& string, const std::string& delim) {
-		std::vector<std::string> result;
+	std::vector<std::string> split_string(const std::string& __string__, const std::string& delim) {
+		std::vector<std::string> result = {};
 		std::string entry;
 
-		for (int i=0; i<string.size(); i++) {
+		for (int i=0; i<__string__.size(); i++) {
 			bool add = true;
 
 			for (int j=0; j<delim.size(); j++) {
-				if (string[i] == delim[j])
+				if (__string__[i] == delim[j])
 					add = false;
 			}
 
 			if (add) {
 				// add character to next entry
-				entry += string[i];
+				entry += __string__[i];
 			} else {
 				// push entry to vector, then reset entry
-				result.push_back(entry);
-				entry = "";
+				if (entry.size() != 0)
+					result.push_back(entry);
+					entry = "";
 			}
 		}
 
