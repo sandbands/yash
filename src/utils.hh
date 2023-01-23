@@ -150,6 +150,60 @@ namespace yash {
 		for (int i=0; i<__memory__.size(); i++)
 			delete __memory__[i];
 	}
+
+	// create directory
+	bool mkdir(const char* path);
+
+	// create directory
+	bool mkdir(const std::string& path);
+
+	// remove directory
+	bool rmdir(const char* path);
+
+	// remove directory
+	bool rmdir(const std::string& path);
+
+	// create directories
+	bool mkdirs(const std::vector<char*>& paths);
+
+	// create directories
+	bool mkdirs(const std::vector<std::string>& paths);
+
+	// remove directories
+	bool rmdirs(const std::vector<char*>& paths);
+
+	// remove directories
+	bool rmdirs(const std::vector<std::string>& paths);
+
+	// make a file
+	bool mk(const char* path);
+
+	// make a file
+	bool mk(const std::string& path);
+
+	// remove a file
+	bool rm(const char* path);
+
+	// remove a file
+	bool rm(const std::string& path);
+
+	// make files
+	bool mks(const std::vector<char*>& paths);
+
+	// make files
+	bool mks(const std::vector<std::string>& paths);
+
+	// remove files
+	bool rms(const std::vector<char*>& paths);
+
+	// remove files
+	bool rms(const std::vector<std::string>& paths);
+
+	// list directory contents
+	std::vector<std::string> lsdir(const char* path);
+
+	// list directory contents
+	std::vector<std::string> lsdir(const std::string& path);
 }
 
 

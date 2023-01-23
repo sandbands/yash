@@ -11,7 +11,9 @@
 
 #include <filesystem>
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <regex>
 #include <errno.h>
@@ -35,7 +37,10 @@ namespace yash {
 	}
 
 	// end line
-	void endl() { std::cout << std::endl; }
+	std::ostream& endl() { return std::cout << std::endl; }
+
+	// flush
+	std::ostream& flush() { return std::cout << std::flush; }
 
 	// split string
 	std::vector<std::string> split_string(const std::string& __string__, const std::string& delim) {
@@ -217,5 +222,195 @@ namespace yash {
 	// pause
 	void pause(unsigned int seconds) {
 		sleep(seconds);
+	}
+
+	// create directory
+	bool mkdir(const char* path) {
+		return std::filesystem::create_directory(path);
+	}
+
+	// create directory
+	bool mkdir(const std::string& path) {
+		return std::filesystem::create_directory(path);
+	}
+
+	// remove directory
+	bool rmdir(const char* path) {
+		return std::filesystem::remove_all(path);
+	}
+
+	// remove directory
+	bool rmdir(const std::string& path) {
+		return std::filesystem::remove_all(path);
+	}
+
+	// create directories
+	bool mkdirs(const std::vector<char*>& paths) {
+		bool _status = true;
+
+		for (int i=0; i<paths.size(); i++) {	
+			if (!std::filesystem::create_directory(paths[i]));
+				_status = false;
+		}
+		
+		return _status;
+	}
+
+	// create directories
+	bool mkdirs(const std::vector<std::string>& paths) {
+		bool _status = true;
+
+		for (int i=0; i<paths.size(); i++) {	
+			if (!std::filesystem::create_directory(paths[i]));
+				_status = false;
+		}
+		
+		return _status;
+	}
+
+	// remove directories
+	bool rmdirs(const std::vector<char*>& paths) {
+		bool _status = true;
+
+		for (int i=0; i<paths.size(); i++) {	
+			if (!std::filesystem::remove_all(paths[i]));
+				_status = false;
+		}
+		
+		return _status;
+	}
+
+	// remove directories
+	bool rmdirs(const std::vector<std::string>& paths) {
+		bool _status = true;
+
+		for (int i=0; i<paths.size(); i++) {	
+			if (!std::filesystem::remove_all(paths[i]));
+				_status = false;
+		}
+		
+		return _status;
+	}
+
+	// make a file
+	bool mk(const char* path) {
+		bool _status = true;
+
+		std::ofstream file;
+
+		if (std::filesystem::exists(path))
+			_status = false;
+		else {
+			file.open(path, std::fstream::out | std::fstream::trunc);
+			file.close();
+		}
+
+		return _status;
+	}
+
+	// make a file
+	bool mk(const std::string& path) {
+		bool _status = true;
+
+		std::ofstream file;
+
+		if (std::filesystem::exists(path))
+			_status = false;
+		else {
+			file.open(path, std::fstream::out | std::fstream::trunc);
+			file.close();
+		}
+
+		return _status;
+	}
+
+	// remove a file
+	bool rm(const char* path) {
+		return std::remove(path);
+	}
+
+	// remove a file
+	bool rm(const std::string& path) {
+		return std::remove(path.c_str());
+	}
+
+	// make files
+	bool mks(const std::vector<char*>& paths) {
+		bool _status = true;
+
+		std::ofstream file;
+
+		for (int i=0; i<paths.size(); i++) {
+			if (std::filesystem::exists(paths[i]))
+				_status = false;
+			else {
+				file.open(paths[i], std::fstream::out | std::fstream::trunc);
+				file.close();
+			}
+		}
+
+		return _status;
+	}
+
+	// make files
+	bool mks(const std::vector<std::string>& paths) {
+		bool _status = true;
+
+		std::ofstream file;
+
+		for (int i=0; i<paths.size(); i++) {
+			if (std::filesystem::exists(paths[i]))
+				_status = false;
+			else {
+				file.open(paths[i], std::fstream::out | std::fstream::trunc);
+				file.close();
+			}
+		}
+
+		return _status;
+	}
+
+	// remove files
+	bool rms(const std::vector<char*>& paths) {
+		bool _status = true;
+
+		for (int i=0; i<paths.size(); i++) {
+			if (!std::remove(paths[i]))
+				_status = false;
+		}
+
+		return _status;
+	}
+
+	// remove files
+	bool rms(const std::vector<std::string>& paths) {
+		bool _status = true;
+
+		for (int i=0; i<paths.size(); i++) {
+			if (!std::remove(paths[i].c_str()))
+				_status = false;
+		}
+
+		return _status;
+	}
+
+	// list directory contents
+	std::vector<std::string> lsdir(const char* path) {
+		std::vector<std::string> result;
+		
+		for (const auto & entry : std::filesystem::directory_iterator(path))
+        	result.push_back(entry.path().string());
+		
+		return result;
+	}
+
+	// list directory contents
+	std::vector<std::string> lsdir(const std::string& path) {
+		std::vector<std::string> result;
+		
+		for (const auto & entry : std::filesystem::directory_iterator(path))
+        	result.push_back(entry.path().string());
+		
+		return result;
 	}
 }

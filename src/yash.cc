@@ -50,6 +50,7 @@ const std::string help_all() {
 Available Commands: \n\
  \n\
  cd, chdir, cwd [path=HOME]\t: Changes the current working directory to the provided path \n\
+ gwd\t: Get the current working directory \n\
  exit, quit, q\t: Exit yash \n\
  return [int=?]\t: Exit yash and return an exit code. Default value is the saved return status of the current session \n\
  version, info\t: Displays the build version and info \n\
@@ -59,6 +60,15 @@ Available Commands: \n\
  throw <name> <code> [*message=\"None\"]\t: Throw an error and assign it information \n\
  trace, traceback (--count, --amount, -ls) | ([index=1])\t: Trace an error's information \n\
  sh, sys, system [*input=none]\t: Execute a system shell command \n\
+ mk, make <path>\t: Create a file \n\
+ rm, remove <path>\t: Remove a file \n\
+ mkdir <path>\t: Create a directory \n\
+ rmdir <path>\t: Remove a directory \n\
+ mks, makes <*paths>\t: Create files \n\
+ rms, removes <*paths>\t: Remove files \n\
+ mkdirs <*paths>\t: Create directories \n\
+ rmdirs <*paths>\t: Remove directories \n\
+ ls, listdir, dig [path=.]\t: List the contents of a directory \n\
 \n\n";
 	return help_str;
 }
@@ -220,8 +230,22 @@ yash::token exec(const std::vector<std::string>& argv) {
 				if (argc > 3) {
 					name 		= argv[1];
 					__code__ 	= argv[2];
-					for (int i=3; i<argc; i++)
-						message += argv[i] + " ";
+					for (int i=3; i<argc; i++) {
+						// only item
+						if (i == 3 && i == argc - 1) {
+							message += argv[i];
+						}
+
+						// last item
+						else if (i != 3 && i == argc - 1) {
+							message += argv[i];
+						}
+
+						// every other item
+						else {
+							message += argv[i] + " ";
+						}
+					}
 
 				} else {
 					name 		= argv[1];
@@ -236,7 +260,6 @@ yash::token exec(const std::vector<std::string>& argv) {
 					code = std::stoi(__code__);
 					yash::push_err(new yash::Error(name, message, code, "User Defined Error"));
 				}
-
 			} else {
 				yash::error("insufficient arguments");
 				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
@@ -264,8 +287,22 @@ yash::token exec(const std::vector<std::string>& argv) {
 			if (yash::check_int(argc, 2)) {
 				std::string cmd;
 				
-				for (int i=1; i<argc; i++)
-					cmd += argv[i] + " ";
+				for (int i=1; i<argc; i++) {
+					// only item
+					if (i == 1 && i == argc - 1) {
+						cmd += argv[i];
+					}
+
+					// last item
+					else if (i != 1 && i == argc - 1) {
+						cmd += argv[i];
+					}
+
+					// every other item
+					else {
+						cmd += argv[i] + " ";
+					}
+				}
 				
 				std::system(cmd.c_str());
 			} else {
@@ -273,9 +310,187 @@ yash::token exec(const std::vector<std::string>& argv) {
 			}
 		}
 
+		// remove
+		else if (prog == "rm" || prog == "remove") {
+			if (yash::check_int(argc, 2, false)) {
+				const std::string path = argv[1];
+				if (!yash::rm(path)) {
+					yash::error("failed to remove file", path);
+				} else {
+					yash::output("removed file", path);
+				}
+			} else {
+				yash::error("insufficient arguments");
+				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+			}
+		}
+
+		// make
+		else if (prog == "mk" || prog == "make") {
+			if (yash::check_int(argc, 2, false)) {
+				const std::string path = argv[1];
+				if (!yash::mk(path)) {
+					yash::error("failed to create file", path);
+				} else {
+					yash::output("created file", path);
+				}
+			} else {
+				yash::error("insufficient arguments");
+				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+			}
+		}
+
+		// removes
+		else if (prog == "rms" || prog == "removes") {
+			if (yash::check_int(argc, 2, false)) {
+				for (int i=1; i<argc; i++) {
+					if (!yash::rm(argv[1])) {
+						yash::error("failed to remove file", argv[i]);
+					} else {
+						yash::output("removed file", argv[i]);
+					}
+				 }
+			} else {
+				yash::error("insufficient arguments");
+				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+			}
+		}
+
+		// makes
+		else if (prog == "mks" || prog == "makes") {
+			if (yash::check_int(argc, 2, false)) {
+				for (int i=1; i<argc; i++) {
+					if (!yash::mk(argv[1])) {
+						yash::error("failed to create file", argv[i]);
+					} else {
+						yash::output("created file", argv[i]);
+					}
+				 }
+			} else {
+				yash::error("insufficient arguments");
+				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+			}
+		}
+
+		// mkdir
+		else if (prog == "mkdir") {
+			if (yash::check_int(argc, 2, false)) {
+				const std::string path = argv[1];
+				if (!yash::mkdir(path)) {
+					yash::error("failed to create directory", path);
+				} else {
+					yash::output("created directory", path);
+				}
+			} else {
+				yash::error("insufficient arguments");
+				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+			}
+		}
+
+		// rmdir
+		else if (prog == "rmdir") {
+			if (yash::check_int(argc, 2, false)) {
+				const std::string path = argv[1];
+				if (!yash::rmdir(path)) {
+					yash::error("failed to remove directory", path);
+				} else {
+					yash::output("removed directory", path);
+				}
+			} else {
+				yash::error("insufficient arguments");
+				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+			}
+		}
+
+		// mkdirs
+		else if (prog == "mkdirs") {
+			if (yash::check_int(argc, 2, false)) {
+				for (int i=1; i<argc; i++) {
+					if (!yash::mkdir(argv[1])) {
+						yash::error("failed to create directory", argv[i]);
+					} else {
+						yash::output("created directory", argv[i]);
+					}
+				 }
+			} else {
+				yash::error("insufficient arguments");
+				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+			}
+		}
+
+		// rmdirs
+		else if (prog == "rmdirs") {
+			if (yash::check_int(argc, 2, false)) {
+				for (int i=1; i<argc; i++) {
+					if (!yash::rmdir(argv[1])) {
+						yash::error("failed to remove directory", argv[i]);
+					} else {
+						yash::output("removed directory", argv[i]);
+					}
+				 }
+			} else {
+				yash::error("insufficient arguments");
+				yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+			}
+		}
+
+		else if (prog == "ls" || prog == "listdir" || prog == "dig") {
+			if (!yash::check_int(argc, 2, false)) {
+				const std::string path = argv[1];
+
+				std::vector<std::string> contents = yash::lsdir(path);
+				
+				if (contents.size() > 0) {
+					yash::output("Searching for items in directory", path);
+					
+					std::cout << std::endl;
+					
+					for (int i=0; i<contents.size(); i++) {
+						std::cout << i << ".\t" << contents[i] << std::endl;
+					}
+				} else {
+					yash::output("Empty directory", path);
+				}
+			} else {
+				std::vector<std::string> contents = yash::lsdir(yash::gcwd());
+				
+				if (contents.size() > 0) {
+					yash::output("Searching for items in directory", yash::gcwd());
+
+					std::cout << std::endl;
+					
+					for (int i=0; i<contents.size(); i++) {
+						std::cout << i << ".\t" << contents[i] << std::endl;
+					}
+				} else {
+					yash::output("Empty directory", yash::gcwd());
+				}
+			}
+
+			std::cout << std::endl;
+		}
+
 		else {
-			yash::error("invalid command", prog);
-			yash::push_err(&yash::ERR_INVALID_TOKEN);
+			std::string cmd;
+
+			for (int i=0; i<argc; i++) {
+				// only item
+				if (i == 0 && i == argc - 1) {
+					cmd += argv[i];
+				}
+
+				// last item
+				else if (i != 0 && i == argc - 1) {
+					cmd += argv[i];
+				}
+
+				// every other item
+				else {
+					cmd += argv[i] + " ";
+				}
+			}
+
+			std::system(cmd.c_str());
 		}
 	}
 	
