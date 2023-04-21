@@ -13,6 +13,7 @@ Add the 'bin' (binary) directory to your System / Current shell's PATH Variable 
 
 It is recommended that you place the root directory of yash in your home directory (Linux: /home/USERNAME/    Windows: C\\Users\\USERNAME).
 
+So, (Linux: /home/USERNAME/yash		Windows: C:\\Users\\USERNAME\\yash)
 # Updating yash 
 
 #### You will need Git for this.

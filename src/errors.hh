@@ -17,10 +17,10 @@
 
 namespace yash {
 	// print error
-	void error(const std::string& message, const bool& add_period=true);
+	void error(const std::string& message, const bool& punctuate=true);
 
 	// print error
-	void error(const std::string& message, const std::string& item, const bool& add_period=true);
+	void error(const std::string& message, const std::string& item, const bool& punctuate=true);
 
 	class Error {
 		public:
@@ -31,7 +31,7 @@ namespace yash {
 	};
 
 	// print error by reference
-	void error(const Error* error, const std::string& item="None", const bool& add_period=true);
+	void error(const Error* error, const std::string& item="None", const bool& punctuate=true);
 
 	// error codes
 	extern const Error ERR_INSUFFICIENT_ARGUMENTS;
@@ -50,3 +50,5 @@ namespace yash {
 }
 
 #endif /* ERRORS_HH */
+
+

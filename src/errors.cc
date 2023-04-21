@@ -18,9 +18,9 @@
 
 namespace yash {
 	// print error
-	void error(const std::string& message, const bool& add_period) {
+	void error(const std::string& message, const bool& punctuate) {
 		if (message.size() > 0) {
-			if (message[message.size() - 1] != '.' && add_period)
+			if (message[message.size() - 1] != '.' && punctuate)
 				printf("\nyash: error: %s.\n\n", message.c_str());
 			else
 				printf("\nyash: error: %s\n\n", message.c_str());
@@ -28,9 +28,9 @@ namespace yash {
 	}
 
 	// print error
-	void error(const std::string& message, const std::string& item, const bool& add_period) {
+	void error(const std::string& message, const std::string& item, const bool& punctuate) {
 		if (message.size() > 0) {
-			if (message[message.size() - 1] != '.' && add_period)
+			if (message[message.size() - 1] != '.' && punctuate)
 				printf("\nyash: error: %s: '%s'.\n\n", message.c_str(), item.c_str());
 			else
 				printf("\nyash: error: %s: '%s'\n\n", message.c_str(), item.c_str());
@@ -42,9 +42,9 @@ namespace yash {
 		: name(name), message(message), code(code), type(type) {}
 
 	// print error by reference
-	void error(const Error* error, const std::string& item, const bool& add_period) {
+	void error(const Error* error, const std::string& item, const bool& punctuate) {
 		if (error->message.size() > 0) {
-			if (error->message[error->message.size() - 1] != '.' && add_period)
+			if (error->message[error->message.size() - 1] != '.' && punctuate)
 				printf("\nyash (type:%s,  code:%i,  item:'%s') %s: %s.\n\n", error->type.c_str(), error->code, item.c_str(), error->name.c_str(), error->message.c_str());
 			else
 				printf("\nyash (type:%s, code:%i,  item:'%s') %s: %s\n\n", error->type.c_str(), error->code, item.c_str(), error->name.c_str(), error->message.c_str());

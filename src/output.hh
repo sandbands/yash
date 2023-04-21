@@ -16,10 +16,10 @@
 
 namespace yash {
 	// print
-	void output(const std::string& message, const bool& add_period=true);
+	void output(const std::string& message, const bool& punctuate=true);
 
 	// print
-	void output(const std::string& message, const std::string& item, const bool& add_period=true);
+	void output(const std::string& message, const std::string& item, const bool& punctuate=true);
 }
 
 #endif /* OUTPUT_HH */

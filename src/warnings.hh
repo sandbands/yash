@@ -16,10 +16,10 @@
 
 namespace yash {
 	// print warning
-	void warn(const std::string& message, const bool& add_period=true);
+	void warn(const std::string& message, const bool& punctuate=true);
 
 	// print warning
-	void warn(const std::string& message, const std::string& item, const bool& add_period=true);
+	void warn(const std::string& message, const std::string& item, const bool& punctuate=true);
 }
 
 #endif /* WARNINGS_HH */

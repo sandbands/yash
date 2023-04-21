@@ -434,6 +434,8 @@ yash::token exec(const std::vector<std::string>& argv) {
 			}
 		}
 
+		// TODO: fix the lsdir() function
+		/*
 		else if (prog == "ls" || prog == "listdir" || prog == "dig") {
 			if (!yash::check_int(argc, 2, false)) {
 				const std::string path = argv[1];
@@ -468,7 +470,7 @@ yash::token exec(const std::vector<std::string>& argv) {
 			}
 
 			std::cout << std::endl;
-		}
+		} */ // lsdir()
 
 		else {
 			std::string cmd;

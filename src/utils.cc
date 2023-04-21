@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -21,6 +22,11 @@
 #include "yash.hh"
 #include "errors.hh"
 #include "yunistd.hh"
+#if PLATFORM_ID == PLATFORM_WINDOWS_ID 
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 
 namespace yash {
 	// clear output with escape characters
@@ -176,7 +182,7 @@ namespace yash {
 
 		try {
 			yash::ccwd(path);
-		} catch (std::filesystem::__cxx11::filesystem_error) {
+		} catch (std::filesystem::__cxx11::filesystem_error& e) {
 			result = 0;
 		}
 
@@ -211,17 +217,17 @@ namespace yash {
 
 	// sleep
 	void _sleep(unsigned int seconds) {
-		sleep(seconds);
+		Sleep(seconds);
 	}
 
 	// suspend
 	void suspend(unsigned int seconds) {
-		sleep(seconds);
+		Sleep(seconds);
 	}
 
 	// pause
 	void pause(unsigned int seconds) {
-		sleep(seconds);
+		Sleep(seconds);
 	}
 
 	// create directory
@@ -326,12 +332,12 @@ namespace yash {
 
 	// remove a file
 	bool rm(const char* path) {
-		return std::remove(path);
+		return !std::remove(path);
 	}
 
 	// remove a file
 	bool rm(const std::string& path) {
-		return std::remove(path.c_str());
+		return !std::remove(path.c_str());
 	}
 
 	// make files
@@ -375,7 +381,7 @@ namespace yash {
 		bool _status = true;
 
 		for (int i=0; i<paths.size(); i++) {
-			if (!std::remove(paths[i]))
+			if (std::remove(paths[i]))
 				_status = false;
 		}
 
@@ -387,7 +393,7 @@ namespace yash {
 		bool _status = true;
 
 		for (int i=0; i<paths.size(); i++) {
-			if (!std::remove(paths[i].c_str()))
+			if (std::remove(paths[i].c_str()))
 				_status = false;
 		}
 
@@ -395,22 +401,27 @@ namespace yash {
 	}
 
 	// list directory contents
+	/*
 	std::vector<std::string> lsdir(const char* path) {
 		std::vector<std::string> result;
 		
 		for (const auto & entry : std::filesystem::directory_iterator(path))
-        	result.push_back(entry.path().string());
+        	result.push_back(std::string(entry.path().string()));
 		
 		return result;
-	}
+	} */
 
 	// list directory contents
+	/*
 	std::vector<std::string> lsdir(const std::string& path) {
 		std::vector<std::string> result;
 		
 		for (const auto & entry : std::filesystem::directory_iterator(path))
-        	result.push_back(entry.path().string());
+        	result.push_back(std::string(entry.path().c_str().string()));
 		
 		return result;
-	}
+	} */
+
 }
+
+
