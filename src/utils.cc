@@ -431,7 +431,7 @@ namespace yash {
 
 		int argc = argv.size();
 
-		if (argc() > 1) {
+		if (argc > 1) {
 			for (int i=0; i<argc; i++) {
 				if (i == argc - 1) {
 					argv_str += argv[i];
@@ -446,7 +446,7 @@ namespace yash {
 
 
 		boost::process::ipstream pipe_stream;
-		boost::process::child child_process(argv_str.c_str(), std_out > pipe_stream);
+		boost::process::child child_process(argv_str.c_str(), boost::process::std_out > pipe_stream);
 
 
 		while (pipe_stream && std::getline(pipe_stream, line) && !line.empty())
@@ -463,7 +463,7 @@ namespace yash {
 		std::string line;
 
 		boost::process::ipstream pipe_stream;
-		boost::process::child child_process(argv.c_str(), std_out > pipe_stream);
+		boost::process::child child_process(argv.c_str(), boost::process::std_out > pipe_stream);
 
 
 		while (pipe_stream && std::getline(pipe_stream, line) && !line.empty())
