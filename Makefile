@@ -119,6 +119,6 @@ upgrade:
 
 # FOR THE YASH DEVELOPERS ONLY
 publish:
-git add . && git commit && git push
+	git add . && git commit && git push
 
 
