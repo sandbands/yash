@@ -10,7 +10,7 @@ WINCOMP		:= x86_64-w64-mingw32-g++
 CXX = g++
 
 # define any compile-time flags
-CXXFLAGS	:= -std=c++23 -g -I"C:\Program Files\boost\boost_1_82_0" 
+CXXFLAGS	:= -std=c++23 -g -I"C:\Program Files\boost\boost_1_82_0" -L"C:\Program Files\boost\boost_1_82_0\stage\lib"
 
 
 
@@ -19,7 +19,7 @@ CXXFLAGS	:= -std=c++23 -g -I"C:\Program Files\boost\boost_1_82_0"
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = -L"C:/Program Files/boost/boost_1_82_0/stage/lib"
+LFLAGS = 
 
 
 # define output directory
