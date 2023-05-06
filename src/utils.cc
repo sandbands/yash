@@ -216,19 +216,19 @@ namespace yash {
 		trim_end(string);
 	}
 
-	// sleep
-	void _sleep(unsigned int seconds) {
-		Sleep(seconds);
+	// wait
+	void wait(unsigned int seconds) {
+		sleep(seconds);
 	}
 
 	// suspend
 	void suspend(unsigned int seconds) {
-		Sleep(seconds);
+		sleep(seconds);
 	}
 
 	// pause
 	void pause(unsigned int seconds) {
-		Sleep(seconds);
+		sleep(seconds);
 	}
 
 	// create directory

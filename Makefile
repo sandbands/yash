@@ -10,7 +10,10 @@ WINCOMP		:= x86_64-w64-mingw32-g++
 CXX = g++
 
 # define any compile-time flags
-CXXFLAGS	:= -std=c++23 -g -I"C:\Program Files\boost\boost_1_82_0" -L"C:\Program Files\boost\boost_1_82_0\stage\lib"
+CXXFLAGS	:= -std=c++23 -g -I"/home/itsrxmmy/boost_1_82_0" -L"/home/itsrxmmy/boost_1_82_0/stage/lib"
+
+# -I"C:\Program Files\boost\boost_1_82_0" -L"C:\Program Files\boost\boost_1_82_0\stage\lib"
+# -I"~/boost_1_82_0" -L"~/boost_1_82_0/stage/lib"
 
 
 
@@ -114,5 +117,8 @@ update:
 upgrade:
 	git pull && make
 
+# FOR THE YASH DEVELOPERS ONLY
+publish:
+git add . && git commit && git push
 
 

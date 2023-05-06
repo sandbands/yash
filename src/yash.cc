@@ -275,10 +275,10 @@ yash::token exec(std::vector<std::string>& argv) {
 					yash::error("invalid integer");
 					yash::push_err(&yash::ERR_INVALID_DATA);
 				} else {
-					yash::_sleep(std::stoi(__duration__));
+					yash::wait(std::stoi(__duration__));
 				}
 			} else {
-				yash::_sleep(1);
+				yash::wait(1);
 			}
 		}
 

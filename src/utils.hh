@@ -133,8 +133,8 @@ namespace yash {
 	// trim the last whitespace of a string
 	void trim_end(std::string* string);
 
-	// sleep
-	void _sleep(unsigned int seconds);
+	// wait
+	void wait(unsigned int seconds);
 
 	// suspend
 	void suspend(unsigned int seconds);
