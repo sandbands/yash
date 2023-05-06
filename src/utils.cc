@@ -19,6 +19,7 @@
 #include <regex>
 #include <errno.h>
 #include <string>
+#include <boost/process.hpp>
 #include "yash.hh"
 #include "errors.hh"
 #include "yunistd.hh"
@@ -406,7 +407,7 @@ namespace yash {
 		std::vector<std::string> result;
 		
 		for (const auto & entry : std::filesystem::directory_iterator(path))
-        	result.push_back(std::string(entry.path().string()));
+			result.push_back(std::string(entry.path().string()));
 		
 		return result;
 	} */
@@ -417,11 +418,62 @@ namespace yash {
 		std::vector<std::string> result;
 		
 		for (const auto & entry : std::filesystem::directory_iterator(path))
-        	result.push_back(std::string(entry.path().c_str().string()));
+			result.push_back(std::string(entry.path().c_str().string()));
 		
 		return result;
 	} */
 
+	// launch programs
+	int launch(const std::vector<std::string>& argv) {
+		// line: get output from child process
+		// argv_str: parse vector of strings into one string to pass to the child process
+		std::string line, argv_str;
+
+		int argc = argv.size();
+
+		if (argc() > 1) {
+			for (int i=0; i<argc; i++) {
+				if (i == argc - 1) {
+					argv_str += argv[i];
+				} else {
+					argv_str += argv[i] + " ";
+				}
+			}
+		} else {
+			argv_str = argv[0];
+		}
+
+
+
+		boost::process::ipstream pipe_stream;
+		boost::process::child child_process(argv_str.c_str(), std_out > pipe_stream);
+
+
+		while (pipe_stream && std::getline(pipe_stream, line) && !line.empty())
+			std::cerr << line << std::endl;
+
+		child_process.wait();
+
+		return child_process.exit_code();
+	}
+
+	// launch programs
+	int launch(const std::string& argv) {
+		// line: get output from child process
+		std::string line;
+
+		boost::process::ipstream pipe_stream;
+		boost::process::child child_process(argv.c_str(), std_out > pipe_stream);
+
+
+		while (pipe_stream && std::getline(pipe_stream, line) && !line.empty())
+			std::cerr << line << std::endl;
+
+		child_process.wait();
+
+		return child_process.exit_code();
+	}
 }
+
 
 

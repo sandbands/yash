@@ -14,7 +14,7 @@
 
 // software meta
 #define AUTHOR			"Rammy Aly"
-#define VERSION			"1.10.0"
+#define VERSION			"2.17.1"
 #define BUILD_STABLE 	"stable"
 #define BUILD_NIGHTLY 	"nightly"
 #define BUILD_BETA 		"beta"

@@ -204,6 +204,12 @@ namespace yash {
 
 	// list directory contents
 	std::vector<std::string> lsdir(const std::string& path);
+
+	// launch programs
+	int launch(const std::vector<std::string>& argv);
+
+	// launch programs
+	int launch(const std::string& argv);
 }
 
 

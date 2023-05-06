@@ -80,6 +80,15 @@
 		"valarray": "cpp",
 		"variant": "cpp",
 		"bitset": "cpp",
-		"regex": "cpp"
+		"regex": "cpp",
+		"charconv": "cpp",
+		"filesystem": "cpp",
+		"format": "cpp",
+		"forward_list": "cpp",
+		"locale": "cpp",
+		"xlocbuf": "cpp",
+		"xlocmes": "cpp",
+		"xlocmon": "cpp",
+		"xloctime": "cpp"
 	}
 }

@@ -15,7 +15,7 @@
 #include "yash.hh"
 
 #if PLATFORM_ID == PLATFORM_WINDOWS_ID
-	#include <windows.h>
+	#include <Windows.h>
 #else
 	#include <unistd.h>
 #endif

@@ -1,12 +1,11 @@
 
 # yash patch notes
 
-# Version 1.10.0
+# Version 2.17.1
 
-- New command: `gwd`
 - Refactored Code
 - fixed basic parsing
-- commands will now be executed as shell commands unless they are built in
+- YASH is FULLY independent as its own shell
 
 
 

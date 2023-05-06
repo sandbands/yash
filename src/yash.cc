@@ -102,7 +102,7 @@ Available Commands: \n\
 
 
 // execute commands
-yash::token exec(const std::vector<std::string>& argv) {
+yash::token exec(std::vector<std::string>& argv) {
 	yash::token token = yash::TOK_SUCCESS;
 
 	const int argc = argv.size();
@@ -434,70 +434,14 @@ yash::token exec(const std::vector<std::string>& argv) {
 			}
 		}
 
-		// TODO: fix the lsdir() function
-		/*
-		else if (prog == "ls" || prog == "listdir" || prog == "dig") {
-			if (!yash::check_int(argc, 2, false)) {
-				const std::string path = argv[1];
-
-				std::vector<std::string> contents = yash::lsdir(path);
-				
-				if (contents.size() > 0) {
-					yash::output("Searching for items in directory", path);
-					
-					std::cout << std::endl;
-					
-					for (int i=0; i<contents.size(); i++) {
-						std::cout << i << ".\t" << contents[i] << std::endl;
-					}
-				} else {
-					yash::output("Empty directory", path);
-				}
-			} else {
-				std::vector<std::string> contents = yash::lsdir(yash::gcwd());
-				
-				if (contents.size() > 0) {
-					yash::output("Searching for items in directory", yash::gcwd());
-
-					std::cout << std::endl;
-					
-					for (int i=0; i<contents.size(); i++) {
-						std::cout << i << ".\t" << contents[i] << std::endl;
-					}
-				} else {
-					yash::output("Empty directory", yash::gcwd());
-				}
-			}
-
-			std::cout << std::endl;
-		} */ // lsdir()
-
 		else {
-			std::string cmd;
-
-			for (int i=0; i<argc; i++) {
-				// only item
-				if (i == 0 && i == argc - 1) {
-					cmd += argv[i];
-				}
-
-				// last item
-				else if (i != 0 && i == argc - 1) {
-					cmd += argv[i];
-				}
-
-				// every other item
-				else {
-					cmd += argv[i] + " ";
-				}
-			}
-
-			std::system(cmd.c_str());
+			yash::launch(argv);
 		}
 	}
 	
-	else
+	else {
 		token = yash::TOK_BLANK;
+	}
 
 	yash::glob_token = token;
 
