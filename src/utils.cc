@@ -423,8 +423,8 @@ namespace yash {
 		return result;
 	} */
 
-	// launch programs
-	int launch(const std::vector<std::string>& argv) {
+	// create new process
+	int new_process(const std::vector<std::string>& argv) {
 		// line: get output from child process
 		// argv_str: parse vector of strings into one string to pass to the child process
 		std::string line, argv_str;
@@ -457,8 +457,8 @@ namespace yash {
 		return child_process.exit_code();
 	}
 
-	// launch programs
-	int launch(const std::string& argv) {
+	// create new process
+	int new_process(const std::string& argv) {
 		// line: get output from child process
 		std::string line;
 

@@ -205,11 +205,11 @@ namespace yash {
 	// list directory contents
 	std::vector<std::string> lsdir(const std::string& path);
 
-	// launch programs
-	int launch(const std::vector<std::string>& argv);
+	// create new process
+	int new_process(const std::vector<std::string>& argv);
 
-	// launch programs
-	int launch(const std::string& argv);
+	// create new process
+	int new_process(const std::string& argv);
 }
 
 

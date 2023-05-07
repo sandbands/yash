@@ -435,7 +435,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		else {
-			yash::launch(argv);
+			yash::new_process(argv);
 		}
 	}
 	
