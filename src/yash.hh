@@ -14,7 +14,7 @@
 
 // software meta
 #define DEVELOPER		"ARCO DEVELOPMENT"
-#define VERSION			"2.17.1"
+#define VERSION			"2.20.4"
 #define BUILD_STABLE 	"stable"
 #define BUILD_NIGHTLY 	"nightly"
 #define BUILD_BETA 		"beta"

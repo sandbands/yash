@@ -62,6 +62,7 @@ namespace yash {
 	extern const Error ERR_INVALID_OPERATION		= Error("ERR_INVALID_OPERATION", "invalid operation", 108);
 	extern const Error ERR_ILLEGAL_OPERATION		= Error("ERR_ILLEGAL_OPERATION", "illegal operation", 109);
 	extern const Error ERR_UNKNOWN					= Error("ERR_UNKNOWN", "unknown error", 110);
+	extern const Error ERR_EXTERNAL					= Error("ERR_EXTERNAL", "external error", 111);
 
 	// list of encountered errors
 	extern std::vector<Error*> errors = {};

@@ -44,6 +44,7 @@ namespace yash {
 	extern const Error ERR_INVALID_OPERATION;
 	extern const Error ERR_ILLEGAL_OPERATION;
 	extern const Error ERR_UNKNOWN;
+	extern const Error ERR_EXTERNAL;
 
 	extern std::vector<Error*> errors;
 

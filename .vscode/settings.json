@@ -89,6 +89,7 @@
 		"xlocbuf": "cpp",
 		"xlocmes": "cpp",
 		"xlocmon": "cpp",
-		"xloctime": "cpp"
+		"xloctime": "cpp",
+		"*.ipp": "cpp"
 	}
 }

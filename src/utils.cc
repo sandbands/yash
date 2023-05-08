@@ -463,15 +463,26 @@ namespace yash {
 		std::string line;
 
 		boost::process::ipstream pipe_stream;
-		boost::process::child child_process(argv.c_str(), boost::process::std_out > pipe_stream);
 
+		try {
+			boost::process::child child_process(argv.c_str(), boost::process::std_out > pipe_stream);
 
-		while (pipe_stream && std::getline(pipe_stream, line) && !line.empty())
-			std::cerr << line << std::endl;
+			while (pipe_stream && std::getline(pipe_stream, line) && !line.empty())
+				std::cerr << line << std::endl;
 
-		child_process.wait();
+			child_process.wait();
+			
+			return child_process.exit_code();
+		}
 
-		return child_process.exit_code();
+		catch (boost::process::process_error &error) {
+			int code = error.code().value();
+			std::cerr << "error-" << code << ": " << error.what() << std::endl;
+			yash::push_err(new yash::Error("-", std::string(error.what()), code));
+
+			return code;
+		}
+
 	}
 }
 
