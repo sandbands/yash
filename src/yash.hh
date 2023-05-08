@@ -89,5 +89,8 @@ namespace yash {
 	extern yash::token glob_token;
 }
 
+// loop
+yash::token loop(const std::string& prompt=yash::PROMPT);
+
 #endif /* YASH_HH */
 

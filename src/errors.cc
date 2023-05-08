@@ -57,7 +57,11 @@ namespace yash {
 	extern const Error ERR_INVALID_DATA				= Error("ERR_INVALID_DATA", "invalid data", 103);
 	extern const Error ERR_INSUFFICIENT_DATA		= Error("ERR_INSUFFICIENT_DATA", "insufficient data", 104);
 	extern const Error ERR_INVALID_TOKEN			= Error("ERR_INVALID_TOKEN", "invalid token", 105);
-	extern const Error ERR_UNKNOWN					= Error("ERR_UNKNOWN", "unknown error", 106);
+	extern const Error ERR_INVALID_SYNTAX			= Error("ERR_INVALID_SYNTAX", "invalid syntax", 106);
+	extern const Error ERR_INCOMPLETE_OPERATION		= Error("ERR_INCOMPLETE_OPERATION", "incomplete operation", 107);
+	extern const Error ERR_INVALID_OPERATION		= Error("ERR_INVALID_OPERATION", "invalid operation", 108);
+	extern const Error ERR_ILLEGAL_OPERATION		= Error("ERR_ILLEGAL_OPERATION", "illegal operation", 109);
+	extern const Error ERR_UNKNOWN					= Error("ERR_UNKNOWN", "unknown error", 110);
 
 	// list of encountered errors
 	extern std::vector<Error*> errors = {};

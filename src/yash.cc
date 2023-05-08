@@ -434,6 +434,118 @@ yash::token exec(std::vector<std::string>& argv) {
 			}
 		}
 
+		// current-session yash manipulation
+		else if (prog.starts_with("yash.")) {
+			if (prog == "yash.") {
+				yash::error("vague configuration statement");
+				yash::push_err(&yash::ERR_INVALID_SYNTAX);
+			}
+
+			else if (prog == "yash.opt") {
+				if (argc > 1) {
+					const std::string variable = argv[1];
+
+					// set prompt
+					if (variable == "prompt" || variable == "prompt=") {
+						if (argc == 2 && variable != "prompt=") {
+							yash::error("missing operation");
+							yash::push_err(&yash::ERR_INCOMPLETE_OPERATION);
+						}
+
+						// yash.opt prompt =
+						else if (argc == 3 && argv[2] == "=" && variable != "prompt=") {
+							yash::error("insufficient data. please provide a value.");
+							yash::push_err(&yash::ERR_INSUFFICIENT_DATA);
+						}
+
+						// yash.opt prompt=
+						else if (argc == 2 && variable == "prompt=") {
+							yash::error("insufficient data. please provide a value.");
+							yash::push_err(&yash::ERR_INSUFFICIENT_DATA);
+						}
+
+						// if user provides data (with "yash.opt prompt =")
+						else if (argc > 3) {
+							std::string value;
+							if (argv[2].size() > 1) {
+								for (int i=1; i<argv[2].size(); i++) {
+									value += argv[2][i];
+								}
+							}
+
+							for (int i=3; i<argc; i++) {
+								// only item passed
+								if (i == 0 && argc == 4) {
+									value += argv[i];
+								}
+
+								// first item passed
+								else if (i == 0 && argc > 4) {
+									value += argv[i] + " ";
+								}
+
+								// last item
+								else if (i == argc - 1) {
+									value += argv[i];
+								}
+
+								// any other item
+								else {
+									value += argv[i] + " ";
+								}
+							}
+
+							yash::PROMPT = value;
+						}
+
+						// if user provides data (with "yash.opt prompt=")
+						else if (argc > 2) {
+							std::string value;
+							if (argv[1].size() > std::string("prompt=").size()) {
+								for (int i=std::string("prompt=").size(); i<argv[1].size(); i++) {
+									value += argv[1][i];
+								}
+							}
+
+							for (int i=2; i<argc; i++) {
+
+								// only item passed
+								if (i == 0 && argc == 3) {
+									value = argv[i];
+								}
+
+								// first item passed
+								else if (i == 0 && argc > 3) {
+									value = argv[i] + " ";
+								}
+
+								// last item
+								else if (i == argc - 1) {
+									value = argv[i];
+								}
+
+								// any other item
+								else {
+									value = argv[i] + " ";
+								}
+							}
+
+							yash::PROMPT = value;
+						}
+					}
+
+				} else {
+					yash::error("missing variable to manipulate");
+                    yash::push_err(&yash::ERR_INSUFFICIENT_ARGUMENTS);
+				}
+			}
+
+			else {
+				yash::error("invalid yash manipulation statement");
+				yash::push_err(&yash::ERR_INVALID_DATA);
+			}
+		}
+
 		else {
 			yash::new_process(argv);
 		}
@@ -449,7 +561,7 @@ yash::token exec(std::vector<std::string>& argv) {
 }
 
 // loop
-yash::token loop(const std::string& prompt=yash::PROMPT) {
+yash::token loop(const std::string& prompt) {
 	yash::token token = yash::TOK_SUCCESS;
 
 	std::string input;

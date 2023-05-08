@@ -3,12 +3,12 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/src/**"
             ],
             "defines": [],
-            "compilerPath": "",
+            "compilerPath": "/usr/bin/g++",
             "cStandard": "gnu17",
-            "cppStandard": "c++20",
+            "cppStandard": "c++23",
             "intelliSenseMode": "linux-gcc-x64",
             "configurationProvider": "ms-vscode.makefile-tools"
         },
@@ -16,8 +16,7 @@
             "name": "windows",
             "includePath": [
                 "${workspaceFolder}/**",
-				"C:/Program Files/boost/boost_1_82_0/**"
-                
+                "C:/Program Files/boost/boost_1_82_0/**"
             ],
             "defines": [
                 "_DEBUG",

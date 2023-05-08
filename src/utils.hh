@@ -53,7 +53,7 @@ namespace yash {
 				if (i == 0 && vector.size() == 1) {
 					// add item
 					result += vector[i];
-					// clsoe wrap
+					// close wrap
 					result += wrap_close;
 					return result;
 				}
