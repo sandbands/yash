@@ -194,7 +194,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		// version and info
 		else if (prog == "version" || prog == "info") {
 			std::cout << "\nyash v" << VERSION << " (" << BUILD << ") for " << PLATFORM << '.' << std::endl;
-			std::cout << "developed by " << AUTHOR << ".\n" << std::endl;	
+			std::cout << "developed by " << DEVELOPER << ".\n" << std::endl;	
 		}
 
 		// trace errors
@@ -589,7 +589,7 @@ int main(int argc, char* argv[]) {
 		// get yash info
 		if (prog == "-v" || prog == "--version" || prog == "-i" || prog == "--info") {
 			std::cout << "\nyash v" << VERSION << " (" << BUILD << ") for " << PLATFORM << '.' << std::endl;
-			std::cout << "developed by " << AUTHOR << '.' << std::endl;
+			std::cout << "developed by " << DEVELOPER << '.' << std::endl;
 		}
 
 		// execute single command

@@ -13,7 +13,7 @@
 #define YASH_HH
 
 // software meta
-#define AUTHOR			"Rammy Aly"
+#define DEVELOPER		"ARCO DEVELOPMENT"
 #define VERSION			"2.17.1"
 #define BUILD_STABLE 	"stable"
 #define BUILD_NIGHTLY 	"nightly"
