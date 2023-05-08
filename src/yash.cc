@@ -1,6 +1,6 @@
 /**
  * @file yash.cc
- * @author Rammy Aly (ramaly544@gmail.com)
+ * @author ARCO DEVELOPMENT (development.arco@gmail.com)
  * @brief Main source file
  * @version 0.1
  * @date 2023-01-15
@@ -654,6 +654,7 @@ int main(int argc, char* argv[]) {
 
 	return yash::glob_return;
 }
+
 
 
 
