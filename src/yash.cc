@@ -49,7 +49,6 @@ const std::string help_all() {
  \n\
 Available Commands: \n\
  \n\
- cd, chdir, cwd [path=HOME]\t: Changes the current working directory to the provided path \n\
  gwd\t: Get the current working directory \n\
  exit, quit, q\t: Exit yash \n\
  return [int=?]\t: Exit yash and return an exit code. Default value is the saved return status of the current session \n\
@@ -68,7 +67,6 @@ Available Commands: \n\
  rms, removes <*paths>\t: Remove files \n\
  mkdirs <*paths>\t: Create directories \n\
  rmdirs <*paths>\t: Remove directories \n\
- ls, listdir, dig [path=.]\t: List the contents of a directory \n\
 \n\n";
 	return help_str;
 }
@@ -150,7 +148,7 @@ yash::token exec(std::vector<std::string>& argv) {
 			}
 		} */
 
-		// change working directory
+		/* // change working directory
 		else if (prog == "cd" || prog == "chdir" || prog == "cwd") {
 			if (yash::check_int(argc, 2, false)) {
 				const std::string path = argv[1];
@@ -165,7 +163,7 @@ yash::token exec(std::vector<std::string>& argv) {
 					yash::push_err(&yash::ERR_UNKNOWN);
 				}
 			}
-		}
+		} */
 
 		else if (prog == "gwd") {
 			yash::output(yash::gcwd(), false);
