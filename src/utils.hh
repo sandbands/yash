@@ -28,6 +28,9 @@ namespace yash {
 	// end line
 	void endl();
 
+	// flush
+	void flush();
+
 	// parse vector
 	template <typename T>
 	std::string parse(const std::vector<T>& vector, const std::string& wrap, const std::string& sep) {
@@ -108,6 +111,9 @@ namespace yash {
 
 	// change directory
 	int cd(std::string path = yash::HOMEDIR);
+
+	// change directory using OS standard command
+	int cdstd(std::string path = yash::HOMEDIR);
 
 	// reverse a vector
 	template <typename T>

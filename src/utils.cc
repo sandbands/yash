@@ -20,6 +20,7 @@
 #include <errno.h>
 #include <string>
 #include <boost/process.hpp>
+#include "utils.hh"
 #include "yash.hh"
 #include "errors.hh"
 #include "yunistd.hh"
@@ -44,10 +45,10 @@ namespace yash {
 	}
 
 	// end line
-	std::ostream& endl() { return std::cout << std::endl; }
+	void endl() { std::cout << std::endl; }
 
 	// flush
-	std::ostream& flush() { return std::cout << std::flush; }
+	void flush() { std::cout << std::flush; }
 
 	// split string
 	std::vector<std::string> split_string(const std::string& __string__, const std::string& delim) {
@@ -82,7 +83,7 @@ namespace yash {
 	}
 
 	// change current working directory
-	std::string ccwd(const std::string& path=yash::HOMEDIR) {
+	std::string ccwd(const std::string& path) {
 		std::filesystem::current_path(path.c_str());
 		return path;
 	}
@@ -143,7 +144,7 @@ namespace yash {
 	}
 
 	// simple check for ~ (HOME) symbol
-	std::string pathify(const std::string& path, const bool& full=true) {
+	std::string pathify(const std::string& path, const bool& full) {
 		// TODO: fix bug which only keeps home dir
 		std::string path_new = path;
 
@@ -176,7 +177,7 @@ namespace yash {
 	}
 
 	// change directory
-	int cd(std::string path = yash::HOMEDIR) {
+	int cd(std::string path) {
 		int result = 1;
 
 		path = yash::pathify(path);
@@ -193,6 +194,11 @@ namespace yash {
 		}
 
 		return result;
+	}
+
+	// change directory using OS standard command
+	int cdstd(std::string path) {
+		return yash::new_process(std::vector<std::string>{"cd", path});
 	}
 
 	// trim the last whitespace of a string
