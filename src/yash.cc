@@ -47,7 +47,7 @@ const std::string help_all() {
 	const std::string help_str = "\n\n \
  \n\
  \n\
-Built-in Commands: \n\
+Built-in Commands (execute with /): \n\
  \n\
  gwd\t: Get the current working directory \n\
  exit, quit, q\t: Exit yash \n\
@@ -109,15 +109,15 @@ yash::token exec(std::vector<std::string>& argv) {
 		const std::string prog = argv[0];
 
 		// exit
-		if (prog == "//exit" || prog == "//quit" || prog == "//q")
+		if (prog == "/exit" || prog == "/quit" || prog == "/q")
 			token = yash::TOK_EXIT;
 			
 		// restart
-		else if (prog == "//restart")
+		else if (prog == "/restart")
 			token = yash::TOK_RESTART;
 
 		// return and exit
-		else if (prog == "//return") {
+		else if (prog == "/return") {
 			token = yash::TOK_RETURN;
 			
 			if (yash::check_int(argc, 2, false)) {
@@ -127,7 +127,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// this feature may come back in the near future
-		/* else if (prog == "//fn") {
+		/* else if (prog == "/fn") {
 			if (yash::check_int(argc, 2, false)) {
 				bool valid_function = false;
 				for (int i=0; i<functions.size(); i++) {
@@ -148,8 +148,8 @@ yash::token exec(std::vector<std::string>& argv) {
 			}
 		} */
 
-		/* // change working directory
-		else if (prog == "//cd" || prog == "//chdir" || prog == "//cwd") {
+		// change working directory
+		else if (prog == "/cd" || prog == "/chdir" || prog == "/cwd") {
 			if (yash::check_int(argc, 2, false)) {
 				const std::string path = argv[1];
 				if (!yash::cd(path)) {
@@ -163,14 +163,14 @@ yash::token exec(std::vector<std::string>& argv) {
 					yash::push_err(&yash::ERR_UNKNOWN);
 				}
 			}
-		} */
+		}
 
-		else if (prog == "//gwd") {
+		else if (prog == "/gwd") {
 			yash::output(yash::gcwd(), false);
 		}
 
 		// print to console
-		else if (prog == "//stdout" || prog == "//print") {
+		else if (prog == "/stdout" || prog == "/print") {
 			if (yash::check_int(argc, 2, false)) {
 				for (int i=1; i<argc; i++)
 					std::cout << argv[i] << ' ';
@@ -180,23 +180,23 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// clear console
-		else if (prog == "//clear" || prog == "//cls") {
+		else if (prog == "/clear" || prog == "/cls") {
 			yash::clear();
 		}
 
 		// get help
-		else if (prog == "//help") {
+		else if (prog == "/help") {
 			std::cout << help_all() << std::endl;
 		}
 
 		// version and info
-		else if (prog == "//version" || prog == "//info") {
+		else if (prog == "/version" || prog == "/info") {
 			std::cout << "\nyash v" << VERSION << " (" << BUILD << ") for " << PLATFORM << '.' << std::endl;
 			std::cout << "developed by " << DEVELOPER << ".\n" << std::endl;	
 		}
 
 		// trace errors
-		else if (prog == "//trace" || prog == "//traceback") {
+		else if (prog == "/trace" || prog == "/traceback") {
 			if (yash::check_int(argc, 2, false)) {
 				if (argv[1] == "--count" || argv[1] == "--available" || argv[1] == "-ls") {
 					yash::output("available errors to trace", std::to_string(yash::errors.size()));
@@ -220,7 +220,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// throw custom error
-		else if (prog == "//throw") {
+		else if (prog == "/throw") {
 			if (yash::check_int(argc, 3, false)) {
 				std::string name, __code__, message;
 				int code;
@@ -265,7 +265,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// sleep
-		else if (prog == "//sleep") {
+		else if (prog == "/sleep") {
 			if (yash::check_int(argc, 2, false)) {
 				const std::string __duration__ = argv[1];
 
@@ -281,7 +281,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// execute system shell commands
-		else if (prog == "//sh" || prog == "//sys" || prog == "//system") {
+		else if (prog == "/sh" || prog == "/sys" || prog == "/system") {
 			if (yash::check_int(argc, 2)) {
 				std::string cmd;
 				
@@ -309,7 +309,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// remove
-		else if (prog == "//rm" || prog == "//remove") {
+		else if (prog == "/rm" || prog == "/remove") {
 			if (yash::check_int(argc, 2, false)) {
 				const std::string path = argv[1];
 				if (!yash::rm(path)) {
@@ -324,7 +324,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// make
-		else if (prog == "//mk" || prog == "//make") {
+		else if (prog == "/mk" || prog == "/make") {
 			if (yash::check_int(argc, 2, false)) {
 				const std::string path = argv[1];
 				if (!yash::mk(path)) {
@@ -339,7 +339,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// removes
-		else if (prog == "//rms" || prog == "//removes") {
+		else if (prog == "/rms" || prog == "/removes") {
 			if (yash::check_int(argc, 2, false)) {
 				for (int i=1; i<argc; i++) {
 					if (!yash::rm(argv[1])) {
@@ -355,7 +355,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// makes
-		else if (prog == "//mks" || prog == "//makes") {
+		else if (prog == "/mks" || prog == "/makes") {
 			if (yash::check_int(argc, 2, false)) {
 				for (int i=1; i<argc; i++) {
 					if (!yash::mk(argv[1])) {
@@ -371,7 +371,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// mkdir
-		else if (prog == "//mkdir") {
+		else if (prog == "/mkdir") {
 			if (yash::check_int(argc, 2, false)) {
 				const std::string path = argv[1];
 				if (!yash::mkdir(path)) {
@@ -386,7 +386,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// rmdir
-		else if (prog == "//rmdir") {
+		else if (prog == "/rmdir") {
 			if (yash::check_int(argc, 2, false)) {
 				const std::string path = argv[1];
 				if (!yash::rmdir(path)) {
@@ -401,7 +401,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// mkdirs
-		else if (prog == "//mkdirs") {
+		else if (prog == "/mkdirs") {
 			if (yash::check_int(argc, 2, false)) {
 				for (int i=1; i<argc; i++) {
 					if (!yash::mkdir(argv[1])) {
@@ -417,7 +417,7 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// rmdirs
-		else if (prog == "//rmdirs") {
+		else if (prog == "/rmdirs") {
 			if (yash::check_int(argc, 2, false)) {
 				for (int i=1; i<argc; i++) {
 					if (!yash::rmdir(argv[1])) {
@@ -433,13 +433,13 @@ yash::token exec(std::vector<std::string>& argv) {
 		}
 
 		// current-session yash manipulation
-		else if (prog.starts_with("//yash.")) {
+		else if (prog.starts_with("/yash.")) {
 			if (prog == "/yash.") {
 				yash::error("vague configuration statement");
 				yash::push_err(&yash::ERR_INVALID_SYNTAX);
 			}
 
-			else if (prog == "//yash.opt") {
+			else if (prog == "/yash.opt") {
 				if (argc > 1) {
 					const std::string variable = argv[1];
 
@@ -613,7 +613,7 @@ int main(int argc, char* argv[]) {
 		else if (prog == "-d" || prog == "--directory" || "--wdir" || prog == "-ld") {
 			if (argc > 2) {
 				const std::string path = std::string(argv[1]);
-				if (yash::cdstd(path)) {
+				if (yash::cd(path)) {
 					launch = true;
 				} else {
 					yash::error("failed to set working directory");

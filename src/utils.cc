@@ -465,7 +465,7 @@ namespace yash {
 		catch (boost::process::process_error &error) {
 			int code = error.code().value();
 			std::cerr << "error-" << code << ": " << error.what() << std::endl;
-			yash::push_err(new yash::Error("-", std::string(error.what()), code));
+			yash::push_err(new yash::Error("execerr", std::string(error.what()), code));
 
 			return code;
 		}
@@ -492,7 +492,7 @@ namespace yash {
 		catch (boost::process::process_error &error) {
 			int code = error.code().value();
 			std::cerr << "error-" << code << ": " << error.what() << std::endl;
-			yash::push_err(new yash::Error("-", std::string(error.what()), code));
+			yash::push_err(new yash::Error("execerr", std::string(error.what()), code));
 
 			return code;
 		}
