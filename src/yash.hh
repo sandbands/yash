@@ -67,8 +67,6 @@
 #include <cstring>
 #include "tokens.hh"
 
-
-
 namespace yash {
 	// home directory
 	extern const std::string HOMEDIR;
@@ -91,6 +89,49 @@ namespace yash {
 
 // loop
 yash::token loop(const std::string& prompt=yash::PROMPT);
+
+
+#define Black "\u001b[30m"
+#define Red "\u001b[31m"
+#define Green "\u001b[32m"
+#define Yellow "\u001b[33m"
+#define Blue "\u001b[34m"
+#define Magenta "\u001b[35m"
+#define Cyan "\u001b[36m"
+#define White "\u001b[37m"
+#define B_Black "\u001b[30;1m"
+#define B_Red "\u001b[31;1m"
+#define B_Green "\u001b[32;1m"
+#define B_Yellow "\u001b[33;1m"
+#define B_Blue "\u001b[34;1m"
+#define B_Magenta "\u001b[35;1m"
+#define B_Cyan "\u001b[36;1m"
+#define B_White "\u001b[37;1m"
+#define BG_Black "\u001b[40m"
+#define BG_Red "\u001b[41m"
+#define BG_Green "\u001b[42m"
+#define BG_Yellow "\u001b[43m"
+#define BG_Blue "\u001b[44m"
+#define BG_Magenta "\u001b[45m"
+#define BG_Cyan "\u001b[46m"
+#define BG_White "\u001b[47m"
+#define BG_B_Black "\u001b[40;1m"
+#define BG_B_Red "\u001b[41;1m"
+#define BG_B_Green "\u001b[42;1m"
+#define BG_B_Yellow "\u001b[43;1m"
+#define BG_B_Blue "\u001b[44;1m"
+#define BG_B_Magenta "\u001b[45;1m"
+#define BG_B_Cyan "\u001b[46;1m"
+#define BG_B_White "\u001b[47;1m"
+#define Bold "\u001b[1m"
+#define Underline "\u001b[4m"
+#define Reversed "\u001b[7m"
+#define Up "\u001b[{n}A"
+#define Down "\u001b[{n}B"
+#define Right "\u001b[{n}C"
+#define Left "\u001b[{n}D"
+#define Reset "\u001b[0m"
+
 
 #endif /* YASH_HH */
 

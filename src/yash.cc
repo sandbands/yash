@@ -610,7 +610,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		// set working directory and launch
-		else if (prog == "-d" || prog == "--directory" || "--wdir" || prog == "-ld") {
+		else if (prog == "-d" || prog == "--directory" || prog == "--wdir" || prog == "-ld") {
 			if (argc > 2) {
 				const std::string path = std::string(argv[1]);
 				if (yash::cd(path)) {
