@@ -91,5 +91,6 @@
 		"xlocmon": "cpp",
 		"xloctime": "cpp",
 		"*.ipp": "cpp"
-	}
+	},
+	"discord.enabled": true
 }
