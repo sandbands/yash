@@ -11,7 +11,7 @@
 
 #include <cstdlib>
 #include <string>
-#include "warnings.hh"
+#include "yash/warnings.hh"
 
 namespace yash {
 	// print warning

@@ -12,7 +12,7 @@
 #ifndef YUNISTD_HH
 #define YUNISTD_HH
 
-#include "yash.hh"
+#include "yash/yash.hh"
 
 #if PLATFORM_ID == PLATFORM_WINDOWS_ID
 	#include <Windows.h>

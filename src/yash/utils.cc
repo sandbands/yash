@@ -20,10 +20,10 @@
 #include <errno.h>
 #include <string>
 #include <boost/process.hpp>
-#include "utils.hh"
-#include "yash.hh"
-#include "errors.hh"
-#include "yunistd.hh"
+#include "yash/utils.hh"
+#include "yash/yash.hh"
+#include "yash/errors.hh"
+#include "yash/yunistd.hh"
 #if PLATFORM_ID == PLATFORM_WINDOWS_ID 
 #include <Windows.h>
 #else

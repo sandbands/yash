@@ -10,9 +10,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "yash.hh"
-#include "tokens.hh"
-#include "errors.hh"
+#include "yash/yash.hh"
+#include "yash/tokens.hh"
+#include "yash/errors.hh"
 
 class yashfs {
 	

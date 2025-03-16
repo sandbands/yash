@@ -16,12 +16,12 @@
 #include <cstdlib>
 #include <vector>
 #include <filesystem>
-#include "yash.hh"
-#include "utils.hh"
-#include "tokens.hh"
-#include "errors.hh"
-#include "warnings.hh"
-#include "output.hh"
+#include "yash/yash.hh"
+#include "yash/utils.hh"
+#include "yash/tokens.hh"
+#include "yash/errors.hh"
+#include "yash/warnings.hh"
+#include "yash/output.hh"
 
 namespace yash {
 	// home directory

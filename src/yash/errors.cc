@@ -11,10 +11,10 @@
 
 #include <cstdio>
 #include <string>
-#include "errors.hh"
-#include "yash.hh"
-#include "output.hh"
-#include "utils.hh"
+#include "yash/errors.hh"
+#include "yash/yash.hh"
+#include "yash/output.hh"
+#include "yash/utils.hh"
 
 namespace yash {
 	// print error

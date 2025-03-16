@@ -11,7 +11,7 @@
 
 #include <cstdlib>
 #include <string>
-#include "output.hh"
+#include "yash/output.hh"
 
 namespace yash {
 	// print

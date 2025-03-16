@@ -14,9 +14,9 @@
 
 #include <cstdio>
 #include <string>
-#include "yash.hh"
-#include "yunistd.hh"
-#include "errors.hh"
+#include "yash/yash.hh"
+#include "yash/yunistd.hh"
+#include "yash/errors.hh"
 
 namespace yash {
 	// clear output with escape characters
@@ -38,8 +38,8 @@ namespace yash {
 
 		// must have exactly two characters. Anything other will default to no wrap
 		if (wrap.size() == 2) {
-			std::string wrap_open	= wrap[0];
-			std::string wrap_close	= wrap[1];
+			std::string wrap_open	= std::to_string(wrap[0]);
+			std::string wrap_close	= std::to_string(wrap[1]);
 		}
 
 		// no wrap
@@ -124,7 +124,7 @@ namespace yash {
 		if (vector.size() > 0 && vector.size() != 1) {
 			// iterate backwards
 			for (int i=vector.size() - 1; i >= 0; i--)
-				_new.push_back(vector[i]);		
+				_new.push_back(vector[i]); 
 		}
 
 		// 1 element

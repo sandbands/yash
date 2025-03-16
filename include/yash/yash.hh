@@ -65,7 +65,7 @@
 #include <string>
 #include <vector>
 #include <cstring>
-#include "tokens.hh"
+#include "yash/tokens.hh"
 
 namespace yash {
 	// home directory
