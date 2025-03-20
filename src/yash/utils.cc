@@ -70,7 +70,8 @@ namespace yash {
 				// push entry to vector, then reset entry
 				if (entry.size() != 0)
 					result.push_back(entry);
-					entry = "";
+				
+				entry = "";
 			}
 		}
 
@@ -262,7 +263,7 @@ namespace yash {
 		bool _status = true;
 
 		for (int i=0; i<paths.size(); i++) {	
-			if (!std::filesystem::create_directory(paths[i]));
+			if (!std::filesystem::create_directory(paths[i]))
 				_status = false;
 		}
 		
@@ -274,7 +275,7 @@ namespace yash {
 		bool _status = true;
 
 		for (int i=0; i<paths.size(); i++) {	
-			if (!std::filesystem::create_directory(paths[i]));
+			if (!std::filesystem::create_directory(paths[i]))
 				_status = false;
 		}
 		
@@ -286,7 +287,7 @@ namespace yash {
 		bool _status = true;
 
 		for (int i=0; i<paths.size(); i++) {	
-			if (!std::filesystem::remove_all(paths[i]));
+			if (!std::filesystem::remove_all(paths[i]))
 				_status = false;
 		}
 		
@@ -298,7 +299,7 @@ namespace yash {
 		bool _status = true;
 
 		for (int i=0; i<paths.size(); i++) {	
-			if (!std::filesystem::remove_all(paths[i]));
+			if (!std::filesystem::remove_all(paths[i]))
 				_status = false;
 		}
 		

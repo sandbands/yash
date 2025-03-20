@@ -1,2 +1,6 @@
 -I./include
 -std=c++23
+
+-Wall
+-I"/home/itsrxmmy/boost_1_82_0"
+-L"/home/itsrxmmy/boost_1_82_0/stage/lib"
